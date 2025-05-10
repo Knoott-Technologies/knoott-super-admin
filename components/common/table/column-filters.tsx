@@ -333,7 +333,7 @@ function DataTableSelectFilter<TData, TValue>({
   );
 
   const placeholder =
-  // @ts-ignore
+    // @ts-expect-error - Type 'string | undefined' is not assignable to type 'string'.
     column.columnDef.meta?.placeholder ||
     `Filtrar por ${title.toLowerCase()}...`;
 
