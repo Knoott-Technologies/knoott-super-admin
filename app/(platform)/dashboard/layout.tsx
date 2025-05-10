@@ -54,13 +54,13 @@ const DashboardLayout = async ({
 
   switch (role.role) {
     case "superadmin":
-      return { superadmin };
+      return superadmin;
     case "mod":
-      return { mod };
+      return mod;
     case "marketing":
-      return { marketing };
+      return marketing;
     case "account_manager":
-      return { account_manager };
+      return account_manager;
     default:
       return null;
   }
