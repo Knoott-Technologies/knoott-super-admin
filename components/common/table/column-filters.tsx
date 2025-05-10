@@ -333,7 +333,7 @@ function DataTableSelectFilter<TData, TValue>({
   );
 
   const placeholder =
-  // @ts-nocheck
+  // @ts-ignore
     column.columnDef.meta?.placeholder ||
     `Filtrar por ${title.toLowerCase()}...`;
 
