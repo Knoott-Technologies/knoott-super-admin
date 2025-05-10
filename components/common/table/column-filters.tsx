@@ -331,9 +331,12 @@ function DataTableSelectFilter<TData, TValue>({
   const selectedOption = options.find(
     (option) => option.value === selectedValue
   );
+
   const placeholder =
+  // @ts-nocheck
     column.columnDef.meta?.placeholder ||
     `Filtrar por ${title.toLowerCase()}...`;
+
   const [open, setOpen] = useState(false);
   const isMobile = useIsMobile();
 
