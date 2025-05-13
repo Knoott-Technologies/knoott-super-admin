@@ -31,7 +31,7 @@ const GiftTableModPage = async () => {
           rowAsLink
           columns={columns}
           data={giftTables || []}
-          basePath="/mod/gift-table"
+          basePath="/dashboard/mod/gift-table"
           idField="id"
         />
       </section>

@@ -46,12 +46,7 @@ export const SidebarChildren = ({
           label: "Dashboard",
           href: "/dashboard",
           icon: LayoutDashboard,
-        },
-        {
-          label: "Moderación",
-          href: "/mod/dashboard",
-          icon: Shield,
-        },
+        }
       ],
     },
     {

@@ -28,7 +28,7 @@ const PartnersModPAge = async () => {
           rowAsLink
           columns={columns}
           data={providers || []}
-          basePath="/mod/partners"
+          basePath="/dashboard/mod/partners"
           idField="id"
         />
       </section>
