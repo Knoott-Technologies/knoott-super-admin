@@ -48,7 +48,7 @@ export const GiftTableActions = ({ id }: { id: string }) => {
       });
       setIsApproveDialogOpen(false);
       // Refresh the page or update the UI as needed
-      router.replace("/mod/gift-tables");
+      router.replace("/dashboard/mod/gift-tables");
     } catch (error) {
       toast.error("Error", {
         description: "Ocurrió un error al aprobar la mesa de regalos.",
@@ -85,7 +85,7 @@ export const GiftTableActions = ({ id }: { id: string }) => {
       });
       setIsRejectDialogOpen(false);
       // Refresh the page or update the UI as needed
-      router.replace("/mod/gift-tables");
+      router.replace("/dashboard/mod/gift-tables");
     } catch (error) {
       toast.error("Error", {
         description: "Ocurrió un error al rechazar la mesa de regalos.",

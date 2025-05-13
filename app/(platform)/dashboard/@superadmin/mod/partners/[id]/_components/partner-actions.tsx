@@ -48,7 +48,7 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
       });
       setIsApproveDialogOpen(false);
       // Refresh the page or update the UI as needed
-      router.replace("/mod/partners");
+      router.replace("/dashboard/mod/partners");
     } catch (error) {
       toast.error("Error", {
         description: "Ocurrió un error al aprobar el proveedor.",
@@ -85,7 +85,7 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
       });
       setIsRejectDialogOpen(false);
       // Refresh the page or update the UI as needed
-      router.replace("/mod/partners");
+      router.replace("/dashboard/mod/partners");
     } catch (error) {
       toast.error("Error", {
         description: "Ocurrió un error al rechazar el proveedor.",

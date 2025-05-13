@@ -27,8 +27,6 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const date = row.original.created_at!;
 
-      console.log(date);
-
       return (
         <div className="flex items-center gap-2">
           <p className="truncate">

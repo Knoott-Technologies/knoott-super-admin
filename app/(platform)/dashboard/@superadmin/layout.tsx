@@ -1,12 +1,11 @@
 import { HeaderPlatform } from "@/components/common/header/header-platform";
 import { AppSidebar } from "@/components/common/sidebar/app-sidebar";
 import { SidebarBox } from "@/components/common/sidebar/sidebar-box";
-import {
-  SidebarProvider
-} from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { SidebarChildren } from "./_components/sidebar-children";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const SuperadminLayout = async ({
   children,
@@ -14,6 +13,7 @@ const SuperadminLayout = async ({
   children: React.ReactNode;
 }) => {
   const supabase = await createClient();
+  const admin = createAdminClient();
 
   const {
     data: { user },
@@ -23,10 +23,47 @@ const SuperadminLayout = async ({
     return redirect("/");
   }
 
+  const [
+    { count: tables, error },
+    { count: partners, error: errorPartners },
+    { count: products, error: errorProducts },
+    { count: categories, error: errorCategories },
+    { count: brands, error: errorBrands },
+  ] = await Promise.all([
+    admin
+      .from("wedding_verify")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending"),
+    admin
+      .from("z_provider_business")
+      .select("*", { count: "exact", head: true })
+      .eq("status", false),
+    admin
+      .from("z_products")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "requires_verification"),
+    admin
+      .from("z_catalog_collections")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "on_revision"),
+    admin
+      .from("z_catalog_brands")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "on_revision"),
+  ]);
+
   return (
     <SidebarProvider>
       <AppSidebar role="superadmin" user={user}>
-        <SidebarChildren />
+        <SidebarChildren
+          count={{
+            brands: brands! as number,
+            categories: categories! as number,
+            products: products! as number,
+            partners: partners! as number,
+            tables: tables! as number,
+          }}
+        />
       </AppSidebar>
       <SidebarBox>
         <HeaderPlatform />

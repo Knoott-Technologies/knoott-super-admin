@@ -5,6 +5,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
@@ -15,6 +16,7 @@ import {
   Gem,
   LayoutDashboard,
   List,
+  ListTree,
   Shield,
   Store,
   Tag,
@@ -24,85 +26,130 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const sidebarContent: SidebarGroupType[] = [
-  {
-    items: [
-      {
-        label: "Dashboard",
-        href: "/dashboard",
-        icon: LayoutDashboard,
-      },
-      {
-        label: "Moderación",
-        href: "/mod/dashboard",
-        icon: Shield,
-      },
-    ],
-  },
-  {
-    label: "Finanzas",
-    items: [
-      {
-        label: "Estado de cuenta",
-        href: "/dashboard/bank",
-        icon: FileChartPie,
-      },
-    ],
-  },
-  {
-    label: "Vista",
-    items: [
-      {
-        label: "Mesas de regalo",
-        href: "/dashboard/gift-tables",
-        icon: Gem,
-      },
-      {
-        label: "Partners",
-        href: "/dashboard/partners",
-        icon: Store,
-      },
-      {
-        label: "Usuarios",
-        href: "/dashboard/users",
-        icon: Users,
-      },
-    ],
-  },
-  {
-    label: "Catálogo",
-    items: [
-      {
-        label: "Productos",
-        href: "/dashboard/products",
-        icon: Box,
-      },
-      {
-        label: "Categorias",
-        href: "/dashboard/categories",
-        icon: List,
-      },
-      {
-        label: "Marcas",
-        href: "/dashboard/brands",
-        icon: Tag,
-      },
-    ],
-  },
-  {
-    label: "Configuración",
-    items: [
-      {
-        label: "Personal",
-        href: "/dashboard/personal",
-        icon: UserCog2,
-      },
-    ],
-  },
-];
-
-export const SidebarChildren = () => {
+export const SidebarChildren = ({
+  count,
+}: {
+  count: {
+    tables: number;
+    partners: number;
+    products: number;
+    categories: number;
+    brands: number;
+  };
+}) => {
   const pathname = usePathname();
+
+  const sidebarContent: SidebarGroupType[] = [
+    {
+      items: [
+        {
+          label: "Dashboard",
+          href: "/dashboard",
+          icon: LayoutDashboard,
+        },
+        {
+          label: "Moderación",
+          href: "/mod/dashboard",
+          icon: Shield,
+        },
+      ],
+    },
+    {
+      label: "Finanzas",
+      items: [
+        {
+          label: "Estado de cuenta",
+          href: "/dashboard/bank",
+          icon: FileChartPie,
+        },
+      ],
+    },
+    {
+      label: "Vista",
+      items: [
+        {
+          label: "Mesas de regalo",
+          href: "/dashboard/gift-tables",
+          icon: Gem,
+        },
+        {
+          label: "Partners",
+          href: "/dashboard/partners",
+          icon: Store,
+        },
+        {
+          label: "Usuarios",
+          href: "/dashboard/users",
+          icon: Users,
+        },
+      ],
+    },
+    {
+      label: "Catálogo",
+      items: [
+        {
+          label: "Productos",
+          href: "/dashboard/products",
+          icon: Box,
+        },
+        {
+          label: "Categorias",
+          href: "/dashboard/categories",
+          icon: List,
+        },
+        {
+          label: "Marcas",
+          href: "/dashboard/brands",
+          icon: Tag,
+        },
+      ],
+    },
+    {
+      label: "Moderación",
+      items: [
+        {
+          label: "Mesas de regalos",
+          href: "/dashboard/mod/gift-table",
+          icon: Gem,
+          count: count.tables,
+        },
+        {
+          label: "Partners",
+          href: "/dashboard/mod/partners",
+          icon: Store,
+          count: count.partners,
+        },
+        {
+          label: "Productos",
+          href: "/dashboard/mod/products",
+          icon: Box,
+          count: count.products,
+        },
+        {
+          label: "Categorías",
+          href: "/dashboard/mod/categories",
+          icon: ListTree,
+          count: count.categories,
+        },
+        {
+          label: "Marcas",
+          href: "/dashboard/mod/brands",
+          icon: Tag,
+          count: count.brands,
+        },
+      ],
+    },
+    {
+      label: "Configuración",
+      items: [
+        {
+          label: "Personal",
+          href: "/dashboard/personal",
+          icon: UserCog2,
+        },
+      ],
+    },
+  ];
 
   return sidebarContent.map((group, i) => (
     <SidebarGroup key={i}>
@@ -124,6 +171,16 @@ export const SidebarChildren = () => {
                   <span>{item.label}</span>
                 </Link>
               </SidebarMenuButton>
+              {(item.count && (
+                <SidebarMenuBadge className="bg-background ring-1 ring-border text-[11px]">
+                  {item.count}
+                </SidebarMenuBadge>
+              )) ||
+                (item.count === 0 && (
+                  <SidebarMenuBadge className="bg-background ring-1 ring-border text-[11px]">
+                    0
+                  </SidebarMenuBadge>
+                ))}
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
