@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import type React from "react";
 
-export default async function ModLayout({
+const ModLayout = async ({
   superadmin,
   mod,
   marketing,
@@ -12,7 +12,7 @@ export default async function ModLayout({
   mod: React.ReactNode;
   marketing: React.ReactNode;
   account_manager: React.ReactNode;
-}) {
+}) => {
   const supabase = await createClient();
 
   const {
@@ -55,12 +55,14 @@ export default async function ModLayout({
   // Render the appropriate content based on role
   switch (role.role) {
     case "superadmin":
-      return <>{superadmin}</>;
+      return superadmin;
     case "mod":
-      return <>{mod}</>;
+      return mod;
     case "marketing":
-      return <>{marketing}</>;
+      return marketing;
     case "account_manager":
-      return <>{account_manager}</>;
+      return account_manager;
   }
-}
+};
+
+export default ModLayout;
