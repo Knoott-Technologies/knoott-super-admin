@@ -186,8 +186,29 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "catalog_banners_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_brands"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "catalog_banners_category_id_fkey"
             columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_banners_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_banners_placement_fkey"
+            columns: ["placement"]
             isOneToOne: false
             referencedRelation: "catalog_collections"
             referencedColumns: ["id"]
@@ -196,7 +217,7 @@ export type Database = {
             foreignKeyName: "catalog_banners_placement_fkey"
             columns: ["placement"]
             isOneToOne: false
-            referencedRelation: "catalog_collections"
+            referencedRelation: "z_catalog_collections"
             referencedColumns: ["id"]
           },
           {
@@ -279,6 +300,13 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "catalog_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_collections_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_collections"
             referencedColumns: ["id"]
           },
         ]
@@ -597,6 +625,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_brands"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "products_provider_business_id_fkey"
             columns: ["provider_business_id"]
             isOneToOne: false
@@ -615,6 +650,13 @@ export type Database = {
             columns: ["subcategory_id"]
             isOneToOne: false
             referencedRelation: "catalog_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_collections"
             referencedColumns: ["id"]
           },
         ]
@@ -1880,33 +1922,39 @@ export type Database = {
       }
       wedding_verify: {
         Row: {
+          created_at: string
           document_back_url: string | null
           document_front_url: string
           document_type: string
           full_name: string
           id: number
+          rejected_reason: string | null
           selfie_url: string
           status: Database["public"]["Enums"]["verify_status"]
           user_id: string
           wedding_id: string
         }
         Insert: {
+          created_at?: string
           document_back_url?: string | null
           document_front_url: string
           document_type: string
           full_name: string
           id?: number
+          rejected_reason?: string | null
           selfie_url: string
           status?: Database["public"]["Enums"]["verify_status"]
           user_id: string
           wedding_id: string
         }
         Update: {
+          created_at?: string
           document_back_url?: string | null
           document_front_url?: string
           document_type?: string
           full_name?: string
           id?: number
+          rejected_reason?: string | null
           selfie_url?: string
           status?: Database["public"]["Enums"]["verify_status"]
           user_id?: string
@@ -2032,12 +2080,70 @@ export type Database = {
         }
         Relationships: []
       }
+      z_catalog_brands: {
+        Row: {
+          created_at: string | null
+          id: number | null
+          image_url: string | null
+          logo_url: string | null
+          name: string | null
+          status: Database["public"]["Enums"]["brand_status"] | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number | null
+          image_url?: string | null
+          logo_url?: string | null
+          name?: string | null
+          status?: Database["public"]["Enums"]["brand_status"] | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number | null
+          image_url?: string | null
+          logo_url?: string | null
+          name?: string | null
+          status?: Database["public"]["Enums"]["brand_status"] | null
+        }
+        Relationships: []
+      }
+      z_catalog_collections: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: number | null
+          image_url: string | null
+          name: string | null
+          parent_id: number | null
+          parent_name: string | null
+          status: Database["public"]["Enums"]["collection_status"] | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_collections_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_collections_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       z_knoott_transactions: {
         Row: {
           amount: number | null
           created_at: string | null
           description: string | null
+          destination: string | null
           is_commission: boolean | null
+          operation_type: string | null
           order_id: number | null
           provider_business_id: string | null
           provider_name: string | null

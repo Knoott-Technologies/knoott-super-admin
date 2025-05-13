@@ -34,7 +34,7 @@ const sidebarContent: SidebarGroupType[] = [
       },
       {
         label: "Moderación",
-        href: "/dashboard/moderation",
+        href: "/mod/dashboard",
         icon: Shield,
       },
     ],
@@ -58,7 +58,7 @@ const sidebarContent: SidebarGroupType[] = [
         icon: Gem,
       },
       {
-        label: "Negocios",
+        label: "Partners",
         href: "/dashboard/partners",
         icon: Store,
       },
@@ -112,6 +112,7 @@ export const SidebarChildren = () => {
           {group.items.map((item, i) => (
             <SidebarMenuItem key={i}>
               <SidebarMenuButton
+                tooltip={item.label}
                 asChild
                 isActive={
                   (item.href === "/dashboard" && pathname === "/dashboard") ||

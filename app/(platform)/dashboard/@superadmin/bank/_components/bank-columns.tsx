@@ -6,6 +6,7 @@ import { DataTableColumnHeader } from "@/components/common/table/column-header";
 import type { ColumnFilterMeta } from "@/components/common/table/column-filters";
 import {
   ArrowDown,
+  ArrowRight,
   ArrowUp,
   ArrowUpDown,
   Percent,
@@ -151,9 +152,35 @@ export const columns: ColumnDef<Transaction>[] = [
         </div>
       );
     },
-    size: 300,
-    minSize: 280,
-    maxSize: 320,
+    size: 280,
+    minSize: 260,
+    maxSize: 300,
+  },
+  {
+    accessorKey: "destination",
+    id: "Destino",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Destino" />
+    ),
+    enableSorting: false,
+    cell: ({ row }) => {
+      const account = row.original.destination;
+
+      return (
+        <div className="flex items-center gap-2">
+          <p className="truncate">{account}</p>
+        </div>
+      );
+    },
+    size: 150,
+    minSize: 130,
+    maxSize: 170,
+    meta: {
+      placeholder: "Buscar destino",
+      filterVariant: "auto-select",
+      label: "Destino",
+      icon: ArrowRight,
+    } as ColumnFilterMeta,
   },
   {
     accessorKey: "is_commission",
@@ -168,7 +195,7 @@ export const columns: ColumnDef<Transaction>[] = [
           <div className="flex items-center gap-2">
             <kbd
               className={cn(
-                "bg-success inline-flex text-background h-5 items-center rounded border px-1 font-mono text-[10px] font-medium shrink-0"
+                "bg-destructive inline-flex text-background h-5 items-center rounded border px-1 font-mono text-[10px] font-medium shrink-0"
               )}
             >
               Comisión

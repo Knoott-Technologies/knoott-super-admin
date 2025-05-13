@@ -9,4 +9,5 @@ export interface SidebarGroupItemType {
   label: string;
   href: string;
   icon: LucideIcon;
+  count?: number;
 }

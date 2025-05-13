@@ -13,7 +13,7 @@ import { DataTableColumnHeader } from "@/components/common/table/column-header";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import type { ColumnFilterMeta } from "@/components/common/table/column-filters";
-import { CircleDashed, PieChart } from "lucide-react";
+import { CircleDashed } from "lucide-react";
 
 export const columns: ColumnDef<GiftTable>[] = [
   {

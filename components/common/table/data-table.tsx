@@ -28,10 +28,12 @@ import { useState } from "react";
 import { DataTableFiltersFromColumns } from "./toolbar";
 import { useRouter } from "next/navigation";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends object, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   rowAsLink?: boolean;
+  basePath?: string; // Nueva propiedad para la ruta base
+  idField?: string; // Nueva propiedad para especificar qué campo usar como ID
   initialState?: {
     sorting?: SortingState;
     columnVisibility?: VisibilityState;
@@ -48,11 +50,13 @@ interface DataTableProps<TData, TValue> {
   totalCount?: number;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends object, TValue>({
   columns,
   data,
   initialState = {},
   rowAsLink = false,
+  basePath = "",
+  idField = "id",
   onLoadMore,
   hasMoreData = false,
   isLoadingMore = false,
@@ -137,8 +141,33 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableRow
                       key={row.id}
-                      //   @ts-expect-error - Type 'string | number' is not assignable to type 'never'.
-                      onClick={() => router.push(row.original.id)}
+                      onClick={() => {
+                        // Verificar si el campo especificado existe en el objeto original
+                        let idValue: string | undefined;
+
+                        if (idField in row.original) {
+                          // Si el campo especificado existe, usarlo
+                          idValue = String(
+                            row.original[idField as keyof typeof row.original]
+                          );
+                        } else if ("id" in row.original) {
+                          // Si no existe el campo especificado pero existe 'id', usar 'id'
+                          idValue = String((row.original as any).id);
+                        } else {
+                          // Si no hay campo ID disponible, usar el índice de la fila como fallback
+                          idValue = String(row.index);
+                          console.warn(
+                            `No se encontró el campo '${idField}' ni 'id' en los datos de la fila. Usando índice de fila como fallback.`
+                          );
+                        }
+
+                        // Construir la ruta completa
+                        const path = basePath
+                          ? `${basePath}/${idValue}`.replace(/\/+/g, "/") // Evitar dobles barras
+                          : idValue;
+
+                        router.push(path);
+                      }}
                       data-state={row.getIsSelected() && "selected"}
                       className="!cursor-pointer hover:bg-muted/50"
                     >
