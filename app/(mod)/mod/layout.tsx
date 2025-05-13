@@ -3,15 +3,15 @@ import { redirect } from "next/navigation";
 import type React from "react";
 
 const ModLayout = async ({
-  superadmin,
-  mod,
-  marketing,
-  account_manager,
+  sa,
+  md,
+  mkt,
+  ac,
 }: {
-  superadmin: React.ReactNode;
-  mod: React.ReactNode;
-  marketing: React.ReactNode;
-  account_manager: React.ReactNode;
+  sa: React.ReactNode;
+  md: React.ReactNode;
+  mkt: React.ReactNode;
+  ac: React.ReactNode;
 }) => {
   const supabase = await createClient();
 
@@ -20,7 +20,7 @@ const ModLayout = async ({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/");
+    return redirect("/");
   }
 
   const { data, error: aalError } =
@@ -31,15 +31,15 @@ const ModLayout = async ({
   }
 
   if (data.currentLevel === "aal1" && data.currentLevel === data.nextLevel) {
-    redirect("/mfa-enroll");
+    return redirect("/mfa-enroll");
   }
 
   if (data.currentLevel === "aal1" && data.currentLevel !== data.nextLevel) {
-    redirect("/mfa-verify");
+    return redirect("/mfa-verify");
   }
 
   if (data.nextLevel === "aal2" && data.nextLevel !== data.currentLevel) {
-    redirect("/mfa-verify");
+    return redirect("/mfa-verify");
   }
 
   const { data: role, error } = await supabase
@@ -49,19 +49,18 @@ const ModLayout = async ({
     .single();
 
   if (error || !role) {
-    redirect("/");
+    return redirect("/");
   }
 
-  // Render the appropriate content based on role
   switch (role.role) {
     case "superadmin":
-      return superadmin;
+      return sa;
     case "mod":
-      return mod;
+      return md;
     case "marketing":
-      return marketing;
+      return mkt;
     case "account_manager":
-      return account_manager;
+      return ac;
   }
 };
 
