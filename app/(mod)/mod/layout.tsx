@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const DashboardLayout = async ({
+const ModLayout = async ({
   superadmin,
   mod,
   marketing,
@@ -66,4 +66,4 @@ const DashboardLayout = async ({
   }
 };
 
-export default DashboardLayout;
+export default ModLayout;
