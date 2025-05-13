@@ -2,21 +2,17 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import type React from "react";
 
-interface ModLayoutProps {
-  superadmin: React.ReactNode;
-  mod: React.ReactNode;
-  marketing: React.ReactNode;
-  account_manager: React.ReactNode;
-  children: React.ReactNode; // Add children prop for fallback
-}
-
 export default async function ModLayout({
   superadmin,
   mod,
   marketing,
   account_manager,
-  children,
-}: ModLayoutProps) {
+}: {
+  superadmin: React.ReactNode;
+  mod: React.ReactNode;
+  marketing: React.ReactNode;
+  account_manager: React.ReactNode;
+}) {
   const supabase = await createClient();
 
   const {
@@ -66,7 +62,5 @@ export default async function ModLayout({
       return <>{marketing}</>;
     case "account_manager":
       return <>{account_manager}</>;
-    default:
-      return <>{children}</>;
   }
 }
