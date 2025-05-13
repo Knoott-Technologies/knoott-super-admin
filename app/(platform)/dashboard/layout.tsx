@@ -4,14 +4,8 @@ import React from "react";
 
 const DashboardLayout = async ({
   superadmin,
-  mod,
-  marketing,
-  account_manager,
 }: {
   superadmin: React.ReactNode;
-  mod: React.ReactNode;
-  marketing: React.ReactNode;
-  account_manager: React.ReactNode;
 }) => {
   const supabase = await createClient();
 
@@ -55,12 +49,6 @@ const DashboardLayout = async ({
   switch (role.role) {
     case "superadmin":
       return superadmin;
-    case "mod":
-      return mod;
-    case "marketing":
-      return marketing;
-    case "account_manager":
-      return account_manager;
     default:
       return null;
   }

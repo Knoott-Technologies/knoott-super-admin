@@ -2,17 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import type React from "react";
 
-const ModLayout = async ({
-  sa,
-  md,
-  mkt,
-  ac,
-}: {
-  sa: React.ReactNode;
-  md: React.ReactNode;
-  mkt: React.ReactNode;
-  ac: React.ReactNode;
-}) => {
+const ModLayout = async ({ superadmin }: { superadmin: React.ReactNode }) => {
   const supabase = await createClient();
 
   const {
@@ -54,13 +44,9 @@ const ModLayout = async ({
 
   switch (role.role) {
     case "superadmin":
-      return sa;
-    case "mod":
-      return md;
-    case "marketing":
-      return mkt;
-    case "account_manager":
-      return ac;
+      return superadmin;
+    default:
+      return null;
   }
 };
 
