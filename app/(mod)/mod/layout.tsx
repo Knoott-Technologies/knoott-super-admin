@@ -1,18 +1,22 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import React from "react";
+import type React from "react";
 
-const ModLayout = async ({
-  superadmin,
-  mod,
-  marketing,
-  account_manager,
-}: {
+interface ModLayoutProps {
   superadmin: React.ReactNode;
   mod: React.ReactNode;
   marketing: React.ReactNode;
   account_manager: React.ReactNode;
-}) => {
+  children: React.ReactNode; // Add children prop for fallback
+}
+
+export default async function ModLayout({
+  superadmin,
+  mod,
+  marketing,
+  account_manager,
+  children,
+}: ModLayoutProps) {
   const supabase = await createClient();
 
   const {
@@ -20,7 +24,7 @@ const ModLayout = async ({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect("/");
+    redirect("/");
   }
 
   const { data, error: aalError } =
@@ -31,15 +35,15 @@ const ModLayout = async ({
   }
 
   if (data.currentLevel === "aal1" && data.currentLevel === data.nextLevel) {
-    return redirect("/mfa-enroll");
+    redirect("/mfa-enroll");
   }
 
   if (data.currentLevel === "aal1" && data.currentLevel !== data.nextLevel) {
-    return redirect("/mfa-verify");
+    redirect("/mfa-verify");
   }
 
   if (data.nextLevel === "aal2" && data.nextLevel !== data.currentLevel) {
-    return redirect("/mfa-verify");
+    redirect("/mfa-verify");
   }
 
   const { data: role, error } = await supabase
@@ -49,21 +53,20 @@ const ModLayout = async ({
     .single();
 
   if (error || !role) {
-    return redirect("/");
+    redirect("/");
   }
 
+  // Render the appropriate content based on role
   switch (role.role) {
     case "superadmin":
-      return superadmin;
+      return <>{superadmin}</>;
     case "mod":
-      return mod;
+      return <>{mod}</>;
     case "marketing":
-      return marketing;
+      return <>{marketing}</>;
     case "account_manager":
-      return account_manager;
+      return <>{account_manager}</>;
     default:
-      return null;
+      return <>{children}</>;
   }
-};
-
-export default ModLayout;
+}
