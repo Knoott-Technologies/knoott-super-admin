@@ -18,8 +18,6 @@ const PersonalPAge = async () => {
     supabase.from("users").select("*").not("role", "is", null),
   ]);
 
-  console.log(users, error);
-
   if (error || !users) {
     return notFound();
   }

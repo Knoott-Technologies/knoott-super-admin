@@ -132,7 +132,7 @@ export function NewUserForm() {
       </CardHeader>
       <CardContent className="bg-sidebar">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form id="new-user-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="email"
@@ -272,6 +272,7 @@ export function NewUserForm() {
           variant={"defaultBlack"}
           className="w-full"
           disabled={isSubmitting}
+          form="new-user-form"
         >
           {isSubmitting ? (
             <>

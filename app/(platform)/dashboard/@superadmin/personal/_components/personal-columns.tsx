@@ -1,10 +1,11 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/common/table/column-header";
-import { cn, formatPrice, getRoleClassNames, getRoleLabel } from "@/lib/utils";
+import { cn, getRoleClassNames, getRoleLabel } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Users } from "../page";
 import { Badge } from "@/components/ui/badge";
+import { PersonalActions } from "./actions";
 
 export const columns: ColumnDef<Users>[] = [
   {
@@ -22,9 +23,9 @@ export const columns: ColumnDef<Users>[] = [
         </div>
       );
     },
-    size: 150,
+    size: 120,
     minSize: 120,
-    maxSize: 180,
+    maxSize: 120,
   },
   {
     accessorKey: "email",
@@ -41,9 +42,9 @@ export const columns: ColumnDef<Users>[] = [
         </div>
       );
     },
-    size: 150,
+    size: 120,
     minSize: 120,
-    maxSize: 180,
+    maxSize: 120,
   },
   {
     accessorKey: "phone",
@@ -60,9 +61,9 @@ export const columns: ColumnDef<Users>[] = [
         </div>
       );
     },
-    size: 80,
-    minSize: 80,
-    maxSize: 80,
+    size: 120,
+    minSize: 120,
+    maxSize: 120,
   },
   {
     accessorKey: "role",
@@ -84,8 +85,26 @@ export const columns: ColumnDef<Users>[] = [
         </div>
       );
     },
-    size: 80,
-    minSize: 80,
-    maxSize: 80,
+    size: 150,
+    minSize: 150,
+    maxSize: 150,
+  },
+  {
+    id: "actions",
+    enableSorting: false,
+    enableHiding: false,
+    cell: ({ row }) => {
+      const role = row.original.role;
+      const isSuperAdmin = role === "superadmin";
+
+      if (isSuperAdmin) {
+        return null;
+      }
+
+      return <PersonalActions data={row.original} />;
+    },
+    size: 50,
+    minSize: 50,
+    maxSize: 50,
   },
 ];
