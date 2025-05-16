@@ -41,8 +41,8 @@ const UsersPage = async () => {
   return (
     <main className="h-fit w-full md:max-w-[95%] px-3 md:px-0 py-5 pb-14 lg:py-7 mx-auto no-scrollbar">
       <PageHeader
-        title="Mesas de regalo"
-        description="Visualiza y administra todas las mesas de regalo dentro de la plataforma"
+        title="Usuarios"
+        description="Visualiza y administra los usuarios dentro de la plataforma"
       />
       <section className="w-full h-fit items-start justify-start flex flex-col gap-y-5 lg:gap-y-7">
         {/* <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">

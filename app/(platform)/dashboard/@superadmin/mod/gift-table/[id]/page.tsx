@@ -29,7 +29,7 @@ const GiftTableVerifyPageId = async ({
   }
 
   return (
-    <main className="h-fit w-full md:max-w-[95%] px-3 md:px-0 py-5 pb-14 lg:py-7 mx-auto no-scrollbar">
+    <main className="h-fit w-full md:max-w-3xl px-3 md:px-0 py-5 pb-14 lg:py-7 mx-auto no-scrollbar">
       <PageHeader
         title="Verificación de mesa"
         description="Visualiza la información de la mesa para verificarla."
@@ -37,7 +37,7 @@ const GiftTableVerifyPageId = async ({
         <GiftTableActions id={params.id || ""} />
       </PageHeader>
       <section className="w-full h-fit items-start justify-start flex flex-col gap-y-5 lg:gap-y-7">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7">
+        <div className="w-full gap-5 lg:gap-7">
           <InfoCard data={giftTable} />
         </div>
       </section>

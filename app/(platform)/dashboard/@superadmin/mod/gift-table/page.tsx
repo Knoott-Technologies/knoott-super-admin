@@ -4,6 +4,9 @@ import { Database } from "@/database.types";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { columns } from "./_components/gift-table-mod-columns";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export type WeddingVerify =
   Database["public"]["Tables"]["wedding_verify"]["Row"] & {
     wedding: Database["public"]["Tables"]["weddings"]["Row"];
@@ -23,8 +26,8 @@ const GiftTableModPage = async () => {
   return (
     <main className="h-fit w-full md:max-w-[95%] px-3 md:px-0 py-5 pb-14 lg:py-7 mx-auto no-scrollbar">
       <PageHeader
-        title="Mesas por verificar"
-        description="Visualiza y administra las mesas de regalo de la plataforma."
+        title="Categorías por verificar"
+        description="Visualiza y verifica los datos de las mesas de regalo de la plataforma."
       />
       <section className="w-full h-fit items-start justify-start flex flex-col gap-y-5 lg:gap-y-7">
         <DataTable

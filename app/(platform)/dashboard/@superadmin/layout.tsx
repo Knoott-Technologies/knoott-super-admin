@@ -33,7 +33,7 @@ const SuperadminLayout = async ({
     admin
       .from("wedding_verify")
       .select("*", { count: "exact", head: true })
-      .eq("status", "pending"),
+      .in("status", ["pending", "on_revision"]),
     admin
       .from("z_provider_business")
       .select("*", { count: "exact", head: true })
