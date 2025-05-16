@@ -2,19 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
 import { Check, ChevronsUpDown, X } from "lucide-react";
@@ -52,6 +52,7 @@ export const ProductActions = ({ id }: { id: string }) => {
           description: "El producto ha sido aprobado exitosamente.",
         });
         router.refresh();
+        router.replace("/dashboard/mod/products");
       }, 100);
     } catch (error) {
       toast.error("Error", {
@@ -92,6 +93,7 @@ export const ProductActions = ({ id }: { id: string }) => {
           description: "El producto ha sido rechazado.",
         });
         router.refresh();
+        router.replace("/dashboard/mod/products");
       }, 100);
     } catch (error) {
       toast.error("Error", {
