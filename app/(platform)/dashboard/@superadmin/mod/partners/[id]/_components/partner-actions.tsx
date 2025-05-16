@@ -27,6 +27,7 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
 
   const handleApprove = async () => {
@@ -43,12 +44,15 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
         throw new Error("Failed to approve provider business");
       }
 
-      toast.success("Proveedor aprobado", {
-        description: "El proveedor ha sido verificado exitosamente.",
-      });
       setIsApproveDialogOpen(false);
-      // Refresh the page or update the UI as needed
-      router.replace("/dashboard/mod/partners");
+
+      // Add a small delay before showing the toast to ensure dialog is fully closed
+      setTimeout(() => {
+        toast.success("Proveedor aprobado", {
+          description: "El proveedor ha sido verificado exitosamente.",
+        });
+        router.replace("/dashboard/mod/partners");
+      }, 100);
     } catch (error) {
       toast.error("Error", {
         description: "Ocurrió un error al aprobar el proveedor.",
@@ -80,12 +84,15 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
         throw new Error("Failed to reject provider business");
       }
 
-      toast.success("Proveedor rechazado", {
-        description: "El proveedor ha sido rechazado.",
-      });
       setIsRejectDialogOpen(false);
-      // Refresh the page or update the UI as needed
-      router.replace("/dashboard/mod/partners");
+
+      // Add a small delay before showing the toast to ensure dialog is fully closed
+      setTimeout(() => {
+        toast.success("Proveedor rechazado", {
+          description: "El proveedor ha sido rechazado.",
+        });
+        router.replace("/dashboard/mod/partners");
+      }, 100);
     } catch (error) {
       toast.error("Error", {
         description: "Ocurrió un error al rechazar el proveedor.",
@@ -96,9 +103,24 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
     }
   };
 
+  // Handle opening dialogs from dropdown
+  const openApproveDialog = () => {
+    setIsDropdownOpen(false); // Close dropdown first
+    setTimeout(() => {
+      setIsApproveDialogOpen(true); // Then open dialog after a small delay
+    }, 100);
+  };
+
+  const openRejectDialog = () => {
+    setIsDropdownOpen(false); // Close dropdown first
+    setTimeout(() => {
+      setIsRejectDialogOpen(true); // Then open dialog after a small delay
+    }, 100);
+  };
+
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant={"outline"} size={"default"}>
             Acciones <ChevronsUpDown className="ml-2 h-4 w-4" />
@@ -107,23 +129,32 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
         <DropdownMenuContent className="w-[280px]" align="end">
           <DropdownMenuItem
             className="text-success focus:text-success focus:bg-success/10"
-            onClick={() => setIsApproveDialogOpen(true)}
+            onClick={openApproveDialog}
           >
             Aprobar <Check className="ml-auto" />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-destructive focus:text-destructive focus:bg-destructive/10"
-            onClick={() => setIsRejectDialogOpen(true)}
+            onClick={openRejectDialog}
           >
             Rechazar <X className="ml-auto" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Approve Dialog */}
-      <Dialog open={isApproveDialogOpen} onOpenChange={setIsApproveDialogOpen}>
-        <DialogContent>
+      {/* Approve Dialog - Completely separate from DropdownMenu */}
+      <Dialog
+        open={isApproveDialogOpen}
+        onOpenChange={(open) => {
+          setIsApproveDialogOpen(open);
+          if (!open) {
+            // Ensure any lingering overlays are cleared
+            document.body.style.pointerEvents = "";
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Confirmar aprobación</DialogTitle>
             <DialogDescription>
@@ -151,9 +182,18 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
         </DialogContent>
       </Dialog>
 
-      {/* Reject Dialog */}
-      <Dialog open={isRejectDialogOpen} onOpenChange={setIsRejectDialogOpen}>
-        <DialogContent>
+      {/* Reject Dialog - Completely separate from DropdownMenu */}
+      <Dialog
+        open={isRejectDialogOpen}
+        onOpenChange={(open) => {
+          setIsRejectDialogOpen(open);
+          if (!open) {
+            // Ensure any lingering overlays are cleared
+            document.body.style.pointerEvents = "";
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Rechazar proveedor</DialogTitle>
             <DialogDescription>

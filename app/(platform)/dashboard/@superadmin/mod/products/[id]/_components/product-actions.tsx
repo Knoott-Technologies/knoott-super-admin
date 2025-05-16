@@ -1,31 +1,31 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
 import { Check, ChevronsUpDown, X } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
-export const GiftTableActions = ({ id }: { id: string }) => {
+export const ProductActions = ({ id }: { id: string }) => {
   const [isApproveDialogOpen, setIsApproveDialogOpen] = useState(false);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
-  const [rejectReason, setRejectReason] = useState("");
+  const [rejectionReason, setRejectionReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
@@ -33,7 +33,7 @@ export const GiftTableActions = ({ id }: { id: string }) => {
   const handleApprove = async () => {
     try {
       setIsSubmitting(true);
-      const response = await fetch(`/api/gift-tables/${id}/accept`, {
+      const response = await fetch(`/api/products/${id}/approve`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,21 +41,21 @@ export const GiftTableActions = ({ id }: { id: string }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to approve gift table");
+        throw new Error("Failed to approve product");
       }
 
       setIsApproveDialogOpen(false);
 
       // Add a small delay before showing the toast to ensure dialog is fully closed
       setTimeout(() => {
-        toast.success("Mesa de regalos aprobada", {
-          description: "La mesa de regalos ha sido aprobada exitosamente.",
+        toast.success("Producto aprobado", {
+          description: "El producto ha sido aprobado exitosamente.",
         });
-        router.replace("/dashboard/mod/gift-tables");
+        router.refresh();
       }, 100);
     } catch (error) {
       toast.error("Error", {
-        description: "Ocurrió un error al aprobar la mesa de regalos.",
+        description: "Ocurrió un error al aprobar el producto.",
       });
     } finally {
       setIsSubmitting(false);
@@ -63,7 +63,7 @@ export const GiftTableActions = ({ id }: { id: string }) => {
   };
 
   const handleReject = async () => {
-    if (!rejectReason.trim()) {
+    if (!rejectionReason.trim()) {
       toast.error("Error", {
         description: "Por favor, ingresa un motivo de rechazo.",
       });
@@ -72,34 +72,34 @@ export const GiftTableActions = ({ id }: { id: string }) => {
 
     try {
       setIsSubmitting(true);
-      const response = await fetch(`/api/gift-tables/${id}/reject`, {
+      const response = await fetch(`/api/products/${id}/reject`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ rejectedReason: rejectReason }),
+        body: JSON.stringify({ rejectionReason }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to reject gift table");
+        throw new Error("Failed to reject product");
       }
 
       setIsRejectDialogOpen(false);
 
       // Add a small delay before showing the toast to ensure dialog is fully closed
       setTimeout(() => {
-        toast.success("Mesa de regalos rechazada", {
-          description: "La mesa de regalos ha sido rechazada.",
+        toast.success("Producto rechazado", {
+          description: "El producto ha sido rechazado.",
         });
-        router.replace("/dashboard/mod/gift-tables");
+        router.refresh();
       }, 100);
     } catch (error) {
       toast.error("Error", {
-        description: "Ocurrió un error al rechazar la mesa de regalos.",
+        description: "Ocurrió un error al rechazar el producto.",
       });
     } finally {
       setIsSubmitting(false);
-      setRejectReason("");
+      setRejectionReason("");
     }
   };
 
@@ -158,8 +158,8 @@ export const GiftTableActions = ({ id }: { id: string }) => {
           <DialogHeader>
             <DialogTitle>Confirmar aprobación</DialogTitle>
             <DialogDescription>
-              ¿Estás seguro que deseas aprobar esta mesa de regalos? Esta acción
-              cambiará el estado a verificado.
+              ¿Estás seguro que deseas aprobar este producto? Esta acción
+              cambiará el estado a draft.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -195,16 +195,16 @@ export const GiftTableActions = ({ id }: { id: string }) => {
       >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Rechazar mesa de regalos</DialogTitle>
+            <DialogTitle>Rechazar producto</DialogTitle>
             <DialogDescription>
-              Por favor, ingresa el motivo por el cual estás rechazando esta
-              mesa de regalos.
+              Por favor, ingresa el motivo por el cual estás rechazando este
+              producto.
             </DialogDescription>
           </DialogHeader>
           <Textarea
             placeholder="Motivo de rechazo"
-            value={rejectReason}
-            onChange={(e) => setRejectReason(e.target.value)}
+            value={rejectionReason}
+            onChange={(e) => setRejectionReason(e.target.value)}
             className="min-h-[100px]"
           />
           <DialogFooter>

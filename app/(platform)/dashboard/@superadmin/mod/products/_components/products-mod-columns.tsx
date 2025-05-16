@@ -113,6 +113,7 @@ export const columns: ColumnDef<Product>[] = [
       filterOptions: [
         { value: "draft", label: "Borrador" },
         { value: "active", label: "Activo" },
+        { value: "deleted", label: "Eliminado" },
         { value: "archived", label: "Archivado" },
         { value: "requires_verification", label: "Requiere verificación" },
       ],

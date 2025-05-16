@@ -561,6 +561,7 @@ export type Database = {
           name: string
           presence_in_gifts: number
           provider_business_id: string | null
+          rejected_reason: string | null
           shipping_cost: number
           short_description: string
           short_name: string
@@ -581,6 +582,7 @@ export type Database = {
           name: string
           presence_in_gifts?: number
           provider_business_id?: string | null
+          rejected_reason?: string | null
           shipping_cost?: number
           short_description: string
           short_name: string
@@ -601,6 +603,7 @@ export type Database = {
           name?: string
           presence_in_gifts?: number
           provider_business_id?: string | null
+          rejected_reason?: string | null
           shipping_cost?: number
           short_description?: string
           short_name?: string
@@ -789,6 +792,7 @@ export type Database = {
           neighborhood: string | null
           postal_code: string | null
           reference: string
+          rejection_reason: string | null
           social_media: Json | null
           state: string | null
           street: string | null
@@ -818,6 +822,7 @@ export type Database = {
           neighborhood?: string | null
           postal_code?: string | null
           reference?: string
+          rejection_reason?: string | null
           social_media?: Json | null
           state?: string | null
           street?: string | null
@@ -847,6 +852,7 @@ export type Database = {
           neighborhood?: string | null
           postal_code?: string | null
           reference?: string
+          rejection_reason?: string | null
           social_media?: Json | null
           state?: string | null
           street?: string | null
@@ -2338,6 +2344,7 @@ export type Database = {
         | "draft"
         | "requires_verification"
         | "deleted"
+        | "rejected"
       provider_businees_user_roles: "admin" | "supervisor" | "staff"
       transaction_status: "completed" | "pending" | "canceled"
       transaction_types: "income" | "egress" | "purchase"
@@ -2498,6 +2505,7 @@ export const Constants = {
         "draft",
         "requires_verification",
         "deleted",
+        "rejected",
       ],
       provider_businees_user_roles: ["admin", "supervisor", "staff"],
       transaction_status: ["completed", "pending", "canceled"],
