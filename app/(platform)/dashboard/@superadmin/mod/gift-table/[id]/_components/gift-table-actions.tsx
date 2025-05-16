@@ -176,7 +176,7 @@ export const GiftTableActions = ({ id }: { id: string }) => {
               variant="default"
               onClick={handleApprove}
               disabled={isSubmitting}
-              className="bg-success hover:bg-success/90"
+              className="bg-success hover:bg-success/90 text-background hover:text-background"
             >
               {isSubmitting ? "Aprobando..." : "Aprobar"}
             </Button>
