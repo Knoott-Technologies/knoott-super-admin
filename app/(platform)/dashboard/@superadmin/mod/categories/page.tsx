@@ -5,6 +5,9 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { columns } from "./_components/categories-mod-columns";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export type Category =
   Database["public"]["Views"]["z_catalog_collections"]["Row"];
 

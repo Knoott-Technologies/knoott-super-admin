@@ -4,6 +4,9 @@ import { Database } from "@/database.types";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { columns } from "./_components/brands-mod-columns";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export type Brand = Database["public"]["Views"]["z_catalog_brands"]["Row"];
 
 const PartnersModPAge = async () => {

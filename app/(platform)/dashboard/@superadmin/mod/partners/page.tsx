@@ -4,6 +4,9 @@ import { Database } from "@/database.types";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { columns } from "./_components/partners-mod-columns";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export type Partners = Database["public"]["Tables"]["provider_business"]["Row"];
 
 const PartnersModPAge = async () => {
