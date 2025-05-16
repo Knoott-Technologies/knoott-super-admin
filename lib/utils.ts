@@ -36,13 +36,28 @@ export const getRoleClassNames = (
 ) => {
   switch (role) {
     case "superadmin":
-      return "bg-contrast/10 text-contrast";
+      return "bg-contrast/10 text-contrast hover:bg-contrast/10 hover:text-contrast";
     case "mod":
-      return "bg-contrast2/10 text-contrast2";
+      return "bg-contrast2/10 text-contrast2 hover:bg-contrast2/10 hover:text-contrast2";
     case "marketing":
-      return "bg-tertiary/10 text-tertiary";
+      return "bg-tertiary/10 text-tertiary hover:bg-tertiary/10 hover:text-tertiary";
     case "account_manager":
-      return "bg-primary/10 text-amber-600";
+      return "bg-primary/10 text-amber-600 hover:bg-primary/10 hover:text-amber-600";
+  }
+};
+
+export const getRoleLabel = (
+  role: Database["public"]["Enums"]["admin_role"]
+) => {
+  switch (role) {
+    case "superadmin":
+      return "Administrador";
+    case "mod":
+      return "Moderador";
+    case "marketing":
+      return "Marketing";
+    case "account_manager":
+      return "Auxiliar de cuenta";
   }
 };
 
