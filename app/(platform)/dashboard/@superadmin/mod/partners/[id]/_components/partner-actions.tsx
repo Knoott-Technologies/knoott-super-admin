@@ -52,7 +52,7 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
           description: "El proveedor ha sido verificado exitosamente.",
         });
         router.refresh();
-        router.replace("/dashboard/mod/partners");
+        router.push("/dashboard/mod/partners");
       }, 100);
     } catch (error) {
       toast.error("Error", {
@@ -93,7 +93,7 @@ export const ProviderBusinessActions = ({ id }: { id: string }) => {
           description: "El proveedor ha sido rechazado.",
         });
         router.refresh();
-        router.replace("/dashboard/mod/partners");
+        router.push("/dashboard/mod/partners");
       }, 100);
     } catch (error) {
       toast.error("Error", {

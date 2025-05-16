@@ -52,7 +52,7 @@ export const GiftTableActions = ({ id }: { id: string }) => {
           description: "La mesa de regalos ha sido aprobada exitosamente.",
         });
         router.refresh();
-        router.replace("/dashboard/mod/gift-table");
+        router.push("/dashboard/mod/gift-table");
       }, 100);
     } catch (error) {
       toast.error("Error", {
@@ -93,7 +93,7 @@ export const GiftTableActions = ({ id }: { id: string }) => {
           description: "La mesa de regalos ha sido rechazada.",
         });
         router.refresh();
-        router.replace("/dashboard/mod/gift-table");
+        router.push("/dashboard/mod/gift-table");
       }, 100);
     } catch (error) {
       toast.error("Error", {

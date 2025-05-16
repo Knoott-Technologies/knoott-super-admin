@@ -52,7 +52,7 @@ export const ProductActions = ({ id }: { id: string }) => {
           description: "El producto ha sido aprobado exitosamente.",
         });
         router.refresh();
-        router.replace("/dashboard/mod/products");
+        router.push("/dashboard/mod/products");
       }, 100);
     } catch (error) {
       toast.error("Error", {
@@ -93,7 +93,7 @@ export const ProductActions = ({ id }: { id: string }) => {
           description: "El producto ha sido rechazado.",
         });
         router.refresh();
-        router.replace("/dashboard/mod/products");
+        router.push("/dashboard/mod/products");
       }, 100);
     } catch (error) {
       toast.error("Error", {
