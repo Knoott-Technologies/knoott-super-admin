@@ -869,6 +869,7 @@ export type Database = {
           id: number
           order_id: number | null
           provider_business_id: string | null
+          receipt_url: string
           reference: string
           status: Database["public"]["Enums"]["transaction_status"]
         }
@@ -879,6 +880,7 @@ export type Database = {
           id?: number
           order_id?: number | null
           provider_business_id?: string | null
+          receipt_url: string
           reference: string
           status?: Database["public"]["Enums"]["transaction_status"]
         }
@@ -889,6 +891,7 @@ export type Database = {
           id?: number
           order_id?: number | null
           provider_business_id?: string | null
+          receipt_url?: string
           reference?: string
           status?: Database["public"]["Enums"]["transaction_status"]
         }
@@ -1175,7 +1178,6 @@ export type Database = {
           created_at: string
           id: number
           message: string | null
-          payment_intent_id: number | null
           status: Database["public"]["Enums"]["cart_status"]
           user_id: string
           wedding_id: string
@@ -1184,7 +1186,6 @@ export type Database = {
           created_at?: string
           id?: number
           message?: string | null
-          payment_intent_id?: number | null
           status?: Database["public"]["Enums"]["cart_status"]
           user_id: string
           wedding_id: string
@@ -1193,19 +1194,11 @@ export type Database = {
           created_at?: string
           id?: number
           message?: string | null
-          payment_intent_id?: number | null
           status?: Database["public"]["Enums"]["cart_status"]
           user_id?: string
           wedding_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "user_carts_payment_intent_id_fkey"
-            columns: ["payment_intent_id"]
-            isOneToOne: false
-            referencedRelation: "payment_intents"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "user_carts_user_id_fkey"
             columns: ["user_id"]
@@ -2141,6 +2134,35 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      z_knoott_account_balances: {
+        Row: {
+          account: string | null
+          amount: number | null
+          created_at: string | null
+          description: string | null
+          id: number | null
+          provider_business_id: string | null
+          provider_name: string | null
+          running_balance: number | null
+          source: string | null
+          transaction_id: string | null
+          type: string | null
+          user_id: string | null
+          user_name: string | null
+          wedding_id: string | null
+          wedding_name: string | null
+        }
+        Relationships: []
+      }
+      z_knoott_account_summary: {
+        Row: {
+          account: string | null
+          current_balance: number | null
+          total_income: number | null
+          total_outcome: number | null
+        }
+        Relationships: []
       }
       z_knoott_commissions: {
         Row: {

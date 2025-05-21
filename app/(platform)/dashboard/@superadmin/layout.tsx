@@ -29,6 +29,8 @@ const SuperadminLayout = async ({
     { count: products, error: errorProducts },
     { count: categories, error: errorCategories },
     { count: brands, error: errorBrands },
+    { count: pendingWithdrawals, error: errorPendingWithdrawals },
+    { count: pendingPayments, error: errorPendingPayments },
   ] = await Promise.all([
     admin
       .from("wedding_verify")
@@ -50,6 +52,15 @@ const SuperadminLayout = async ({
       .from("z_catalog_brands")
       .select("*", { count: "exact", head: true })
       .eq("status", "on_revision"),
+    admin
+      .from("wedding_transactions")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending")
+      .eq("type", "egress"),
+    admin
+      .from("wedding_product_orders")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending"),
   ]);
 
   return (
@@ -62,6 +73,8 @@ const SuperadminLayout = async ({
             products: products! as number,
             partners: partners! as number,
             tables: tables! as number,
+            pendingWithdrawals: pendingWithdrawals! as number,
+            pendingPayments: pendingPayments! as number,
           }}
         />
       </AppSidebar>

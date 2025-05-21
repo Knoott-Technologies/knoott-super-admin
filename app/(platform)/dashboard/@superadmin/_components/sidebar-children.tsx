@@ -36,6 +36,8 @@ export const SidebarChildren = ({
     products: number;
     categories: number;
     brands: number;
+    pendingWithdrawals: number;
+    pendingPayments: number;
   };
 }) => {
   const pathname = usePathname();
@@ -72,11 +74,13 @@ export const SidebarChildren = ({
           label: "Retiros",
           href: "/dashboard/withdrawals",
           icon: BanknoteArrowDown,
+          count: count.pendingWithdrawals,
         },
         {
           label: "Pagos a Partners",
           href: "/dashboard/partner-payments",
           icon: BanknoteArrowUp,
+          count: count.pendingPayments,
         },
       ],
     },
