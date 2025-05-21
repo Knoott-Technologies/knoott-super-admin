@@ -186,7 +186,7 @@ const GiftTablesPage = async ({
                           "bg-background inline-flex h-5 items-center border px-1 font-mono text-[10px] font-medium shrink-0"
                         )}
                       >
-                        {percentage.toFixed(1)}%
+                        {percentage.toFixed(2)}%
                       </kbd>
                     </div>
                   </div>
