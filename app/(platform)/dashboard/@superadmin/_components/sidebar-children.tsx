@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/sidebar";
 import { SidebarGroupType } from "@/lib/sidebar-types";
 import {
+  BanknoteArrowDown,
+  BanknoteArrowUp,
   Box,
   CreditCard,
   Gem,
@@ -45,7 +47,7 @@ export const SidebarChildren = ({
           label: "Dashboard",
           href: "/dashboard",
           icon: LayoutDashboard,
-        }
+        },
       ],
     },
     {
@@ -60,6 +62,21 @@ export const SidebarChildren = ({
           label: "Knoott Commission Account",
           href: "/dashboard/commission-bank",
           icon: CreditCard,
+        },
+      ],
+    },
+    {
+      label: "Administración de cuenta",
+      items: [
+        {
+          label: "Retiros",
+          href: "/dashboard/withdrawals",
+          icon: BanknoteArrowDown,
+        },
+        {
+          label: "Pagos a Partners",
+          href: "/dashboard/partner-payments",
+          icon: BanknoteArrowUp,
         },
       ],
     },
