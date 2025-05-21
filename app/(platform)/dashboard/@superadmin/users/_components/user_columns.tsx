@@ -2,9 +2,11 @@
 
 import { DataTableColumnHeader } from "@/components/common/table/column-header";
 import { Badge } from "@/components/ui/badge";
-import { formatPrice } from "@/lib/utils";
+import { createSafeAccessor, formatPrice } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Users } from "../page";
+import { ColumnFilterMeta } from "@/components/common/table/column-filters";
+import { CircleDashed } from "lucide-react";
 
 export const columns: ColumnDef<Users>[] = [
   {
@@ -146,7 +148,7 @@ export const columns: ColumnDef<Users>[] = [
                 variant={"secondary"}
                 className="bg-contrast/10 text-contrast hover:bg-contrast/10 hover:text-contrast"
               >
-                Proveedor
+                Partner
               </Badge>
             )}
           </div>

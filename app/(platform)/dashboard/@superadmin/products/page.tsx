@@ -42,7 +42,7 @@ const UsersPage = async () => {
         description="Visualiza y administra todos los productos dentro de la plataforma"
       />
       <section className="w-full h-fit items-start justify-start flex flex-col gap-y-5 lg:gap-y-7">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 w-full">
           <CardCount count={totalCount || 0} title="Total de productos" />
           <CardCount
             count={totalActiveCount || 0}
