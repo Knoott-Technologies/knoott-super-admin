@@ -1,10 +1,10 @@
+import { CardCount } from "@/components/common/cards/card-count";
 import { PageHeader } from "@/components/common/headers";
 import { DataTable } from "@/components/common/table/data-table";
 import { Database } from "@/database.types";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { columns } from "./_components/brands-columns";
-import { CardCount } from "@/components/common/card-count";
 
 export type Brand =
   Database["public"]["Views"]["z_catalog_brands"]["Row"];

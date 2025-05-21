@@ -1,6 +1,7 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/common/table/column-header";
+import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Users } from "../page";
@@ -92,6 +93,63 @@ export const columns: ColumnDef<Users>[] = [
       return (
         <div className="flex items-center gap-2">
           <p className="truncate">{totalContribution}</p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "ticket_promedio",
+    id: "Ticket Promedio",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ticket Promedio" />
+    ),
+    cell: ({ row }) => {
+      const ticket_promedio = row.original.ticket_promedio || 0;
+      return (
+        <div className="flex items-center gap-2">
+          <p className="truncate">MXN {formatPrice(ticket_promedio)}</p>
+        </div>
+      );
+    },
+  },
+  {
+    id: "Distribución",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Distribución" />
+    ),
+    cell: ({ row }) => {
+      const table = row.original.has_table;
+      const provider = row.original.is_provider;
+      const guest = row.original.has_gifted;
+
+      return (
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1 items-center justify-start">
+            {guest && (
+              <Badge
+                variant={"secondary"}
+                className="bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
+              >
+                Invitado
+              </Badge>
+            )}
+            {table && (
+              <Badge
+                variant={"secondary"}
+                className="bg-primary/20 text-yellow-700 hover:bg-primary/20 hover:text-yellow-700"
+              >
+                Mesa
+              </Badge>
+            )}
+            {provider && (
+              <Badge
+                variant={"secondary"}
+                className="bg-contrast/10 text-contrast hover:bg-contrast/10 hover:text-contrast"
+              >
+                Proveedor
+              </Badge>
+            )}
+          </div>
         </div>
       );
     },

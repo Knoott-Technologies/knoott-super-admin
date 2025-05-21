@@ -2142,6 +2142,27 @@ export type Database = {
           },
         ]
       }
+      z_knoott_commissions: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          description: string | null
+          operation_type: string | null
+          order_id: number | null
+          provider_business_id: string | null
+          provider_name: string | null
+          reference: string | null
+          source: string | null
+          status: Database["public"]["Enums"]["transaction_status"] | null
+          transaction_id: string | null
+          type: string | null
+          user_id: string | null
+          user_name: string | null
+          wedding_id: string | null
+          wedding_name: string | null
+        }
+        Relationships: []
+      }
       z_knoott_transactions: {
         Row: {
           amount: number | null
@@ -2197,9 +2218,13 @@ export type Database = {
       z_users: {
         Row: {
           email: string | null
+          has_gifted: boolean | null
+          has_table: boolean | null
           id: string | null
+          is_provider: boolean | null
           name: string | null
           phone: string | null
+          ticket_promedio: number | null
           total_contribution: number | null
           total_contribution_amount: number | null
         }
@@ -2300,14 +2325,30 @@ export type Database = {
         Args: { business_id: string }
         Returns: boolean
       }
+      match_products: {
+        Args: {
+          query_embedding: string
+          match_threshold: number
+          match_count: number
+        }
+        Returns: {
+          id: number
+          similarity: number
+        }[]
+      }
       search_products_by_delivery_zone: {
         Args: {
           p_city: string
           p_state: string
-          p_query?: string
+          p_product_name?: string
+          p_product_keywords?: string[]
+          p_description?: string
+          p_brand_name?: string
           p_subcategory_id?: number
           p_brand_id?: number
-          p_status?: Database["public"]["Enums"]["product_status"]
+          p_status?: string
+          p_min_price?: number
+          p_max_price?: number
           p_limit?: number
           p_offset?: number
           p_debug?: boolean
@@ -2317,6 +2358,10 @@ export type Database = {
       text_to_bytea: {
         Args: { data: string }
         Returns: string
+      }
+      update_embedding_column: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
       urlencode: {
         Args: { data: Json } | { string: string } | { string: string }

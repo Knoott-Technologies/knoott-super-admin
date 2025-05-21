@@ -51,7 +51,7 @@ const UsersPage = async () => {
           <CardCount count={totalPausedCount || 0} title="Mesas pausadas" />
           <CardCount count={totalClosedCount || 0} title="Mesas cerradas" />
         </div> */}
-        <DataTable rowAsLink columns={columns} data={users} />
+        <DataTable columns={columns} data={users} />
       </section>
     </main>
   );

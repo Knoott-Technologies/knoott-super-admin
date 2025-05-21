@@ -1,0 +1,103 @@
+import { TotalProductsCard } from "@/components/common/cards/total-products-card";
+import { TotalTransactionsCard } from "@/components/common/cards/total-transaction-card";
+import { TotalTransactionsNumber } from "@/components/common/cards/total-transaction-number";
+import DateRangeSelector from "@/components/common/date-range-selector";
+import {
+    PageHeaderWithLogoBack,
+} from "@/components/common/headers";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { endOfWeek, format, parse, startOfWeek } from "date-fns";
+import { es } from "date-fns/locale";
+import { redirect } from "next/navigation";
+import TransactionChart from "./_components/transaction-chart";
+
+const ProviderBusinessDashboardPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: { fromDate?: string; toDate?: string };
+}) => {
+  const supabase = createAdminClient();
+
+  // Obtener las fechas desde los searchParams o usar valores predeterminados
+  let fromDate, toDate;
+
+  try {
+    if (searchParams.fromDate && searchParams.toDate) {
+      fromDate = parse(searchParams.fromDate, "yyyy-MM-dd", new Date());
+      toDate = parse(searchParams.toDate, "yyyy-MM-dd", new Date());
+    } else {
+      fromDate = startOfWeek(new Date(), { locale: es });
+      toDate = endOfWeek(new Date(), { locale: es });
+    }
+  } catch (e) {
+    // Si hay error en el formato, usar fechas predeterminadas
+    fromDate = startOfWeek(new Date(), { locale: es });
+    toDate = endOfWeek(new Date(), { locale: es });
+  }
+
+  // Formatear para la consulta de Supabase (ISO string)
+  const fromDateStr = format(fromDate, "yyyy-MM-dd'T00:00:00Z'");
+  const toDateStr = format(toDate, "yyyy-MM-dd'T23:59:59Z'");
+
+  // Run all queries in parallel using Promise.all
+  const [
+    businessResult,
+    totalProductsResult,
+    totalTransactionsResult,
+    transactionsResult,
+  ] = await Promise.all([
+    supabase.from("provider_business").select("*").eq("id", params.id).single(),
+    supabase
+      .from("products")
+      .select("*", { count: "exact", head: true })
+      .eq("provider_business_id", params.id),
+    supabase
+      .from("provider_business_transactions")
+      .select("*", { count: "exact", head: true })
+      .eq("provider_business_id", params.id),
+    supabase
+      .from("provider_business_transactions")
+      .select("*")
+      .eq("provider_business_id", params.id)
+      .gte("created_at", fromDateStr)
+      .lte("created_at", toDateStr)
+      .order("created_at", { ascending: false }),
+  ]);
+
+  const { data: business, error } = businessResult;
+  const { count: totalProducts } = totalProductsResult;
+  const { count: totalTransactions } = totalTransactionsResult;
+  const { data: transactions } = transactionsResult;
+
+  if (!business || error) {
+    redirect("/");
+  }
+
+  return (
+    <main className="h-fit w-full md:max-w-[95%] px-3 md:px-0 py-5 pb-14 lg:py-7 mx-auto no-scrollbar">
+      <PageHeaderWithLogoBack
+        logo={business.business_logo_url}
+        title={business.business_name}
+        description="Esta es tu vista general, aqui podrás ver la información mas relevante de tu negocio."
+      >
+        <DateRangeSelector />
+      </PageHeaderWithLogoBack>
+
+      <section className="w-full h-fit items-start justify-start flex flex-col gap-y-5 lg:gap-y-7">
+        <div className="w-full h-fit grid grid-cols-1 md:grid-cols-1 xl:grid-cols-3 gap-4">
+          <TotalTransactionsCard
+            business={business}
+            transactions={transactions}
+          />
+          <TotalTransactionsNumber total={totalTransactions} />
+          <TotalProductsCard total={totalProducts} />
+        </div>
+        <TransactionChart data={transactions} />
+      </section>
+    </main>
+  );
+};
+
+export default ProviderBusinessDashboardPage;

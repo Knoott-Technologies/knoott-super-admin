@@ -131,6 +131,32 @@ export const getProductStatusLabel = (
   }
 };
 
+export const getWeddingStatusLabel = (
+  status: Database["public"]["Enums"]["wedding_status"]
+) => {
+  switch (status) {
+    case "paused":
+      return "Pausada";
+    case "active":
+      return "Activa";
+    case "closed":
+      return "Cerrada";
+  }
+};
+
+export const getWeddingStatusClassname = (
+  status: Database["public"]["Enums"]["wedding_status"]
+) => {
+  switch (status) {
+    case "paused":
+      return "text-muted-foreground bg-sidebar hover:text-muted-foreground hover:bg-sidebar";
+    case "active":
+      return "text-success bg-success/30 hover:text-success hover:bg-success/30";
+    case "closed":
+      return "text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/10";
+  }
+};
+
 /**
  * Función auxiliar para acceder de forma segura a propiedades anidadas
  * @param obj El objeto del que queremos obtener la propiedad

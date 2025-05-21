@@ -1,19 +1,17 @@
 "use client";
 
-import type { ColumnDef } from "@tanstack/react-table";
-import { cn, formatPrice } from "@/lib/utils";
-import { DataTableColumnHeader } from "@/components/common/table/column-header";
 import type { ColumnFilterMeta } from "@/components/common/table/column-filters";
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUp,
-  ArrowUpDown,
-  Percent,
-} from "lucide-react";
-import { Transaction } from "../page";
+import { DataTableColumnHeader } from "@/components/common/table/column-header";
+import { cn, formatPrice } from "@/lib/utils";
+import type { ColumnDef } from "@tanstack/react-table";
 import { formatInTimeZone } from "date-fns-tz";
 import { es } from "date-fns/locale";
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown
+} from "lucide-react";
+import { Transaction } from "../page";
 
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -153,68 +151,5 @@ export const columns: ColumnDef<Transaction>[] = [
     size: 280,
     minSize: 260,
     maxSize: 300,
-  },
-  {
-    accessorKey: "destination",
-    id: "Destino",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Destino" />
-    ),
-    enableSorting: false,
-    cell: ({ row }) => {
-      const account = row.original.destination;
-
-      return (
-        <div className="flex items-center gap-2">
-          <p className="truncate">{account}</p>
-        </div>
-      );
-    },
-    size: 150,
-    minSize: 130,
-    maxSize: 170,
-    meta: {
-      placeholder: "Buscar destino",
-      filterVariant: "auto-select",
-      label: "Destino",
-      icon: ArrowRight,
-    } as ColumnFilterMeta,
-  },
-  {
-    accessorKey: "is_commission",
-    id: "Comisión",
-    header: ({ column }) => null,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const is_commission = row.original.is_commission;
-
-      if (is_commission) {
-        return (
-          <div className="flex items-center gap-2">
-            <kbd
-              className={cn(
-                "bg-destructive inline-flex text-background h-5 items-center rounded border px-1 font-mono text-[10px] font-medium shrink-0"
-              )}
-            >
-              Comisión
-            </kbd>
-          </div>
-        );
-      }
-
-      return null;
-    },
-    size: 60,
-    minSize: 60,
-    maxSize: 60,
-    meta: {
-      filterVariant: "select",
-      label: "Es comisión",
-      icon: Percent,
-      filterOptions: [
-        { value: true, label: "Si" },
-        { value: false, label: "No" },
-      ],
-    } as ColumnFilterMeta,
   },
 ];

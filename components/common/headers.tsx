@@ -1,12 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { ArrowLeft, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { libre } from "../fonts/font-def";
 import { Avatar, AvatarImage } from "../ui/avatar";
-import Link from "next/link";
 interface PageHeaderProps {
   title: string | React.ReactNode;
   description?: string | React.ReactNode;
@@ -297,6 +297,64 @@ export const PageHeaderWithLogo = ({
           >
             {title}
           </h1>
+        )}
+        <p className="text-muted-foreground text-sm lg:text-base">
+          {description}
+        </p>
+      </div>
+      <div className="flex gap-x-1 items-center justify-end">{children}</div>
+    </section>
+  );
+};
+
+export const PageHeaderWithLogoBack = ({
+  title,
+  description,
+  children,
+  id,
+  logo,
+  back = true,
+}: PageHeaderProps) => {
+  const router = useRouter();
+  return (
+    <section
+      id={id}
+      className="w-full h-fit items-start justify-between flex mb-5 lg:mb-7 gap-5 shrink-0"
+    >
+      <div className="flex flex-col gap-y-1 items-start justify-start max-w-3xl">
+        {(logo && (
+          <span
+            onClick={() => back && router.back()}
+            className="flex gap-x-2 items-center cursor-pointer"
+          >
+            <ArrowLeft className="size-4 xl:size-6" />
+            <Avatar className="size-6 xl:size-[30px] rounded-none ring-1 ring-border">
+              <AvatarImage src={logo} alt={"imagen logo"} />
+            </Avatar>
+            <h1
+              className={cn(
+                "text-2xl xl:text-3xl tracking-tight font-semibold",
+                libre.className
+              )}
+            >
+              {title}
+            </h1>
+          </span>
+        )) || (
+          <span
+            onClick={() => back && router.back()}
+            className="flex gap-x-2 items-center cursor-pointer"
+          >
+            <ArrowLeft className="size-4 xl:size-6" />
+            <h1
+              className={cn(
+                "text-2xl xl:text-3xl tracking-tight font-semibold",
+                libre.className
+              )}
+            >
+              {title}
+            </h1>
+          </span>
         )}
         <p className="text-muted-foreground text-sm lg:text-base">
           {description}

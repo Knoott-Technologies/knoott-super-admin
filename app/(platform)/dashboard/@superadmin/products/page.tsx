@@ -1,4 +1,4 @@
-import { CardCount } from "@/components/common/card-count";
+import { CardCount } from "@/components/common/cards/card-count";
 import { PageHeader } from "@/components/common/headers";
 import { DataTable } from "@/components/common/table/data-table";
 import { Database } from "@/database.types";
@@ -46,7 +46,7 @@ const UsersPage = async () => {
             title="Productos por verificar"
           />
         </div>
-        <DataTable columns={columns} data={users} />
+        <DataTable rowAsLink basePath="/dashboard/products" columns={columns} data={users} />
       </section>
     </main>
   );

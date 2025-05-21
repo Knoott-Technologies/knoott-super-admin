@@ -12,16 +12,15 @@ import {
 import { SidebarGroupType } from "@/lib/sidebar-types";
 import {
   Box,
-  FileChartPie,
+  CreditCard,
   Gem,
   LayoutDashboard,
   List,
   ListTree,
-  Shield,
   Store,
   Tag,
   UserCog2,
-  Users,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -53,9 +52,14 @@ export const SidebarChildren = ({
       label: "Finanzas",
       items: [
         {
-          label: "Estado de cuenta",
-          href: "/dashboard/bank",
-          icon: FileChartPie,
+          label: "Knoott Main Account",
+          href: "/dashboard/main-bank",
+          icon: CreditCard,
+        },
+        {
+          label: "Knoott Commission Account",
+          href: "/dashboard/commission-bank",
+          icon: CreditCard,
         },
       ],
     },

@@ -114,7 +114,7 @@ export function DataTable<TData extends object, TValue>({
   return (
     <section className="flex flex-col gap-y-4 items-start justify-start w-full">
       <DataTableFiltersFromColumns table={table} showGlobalFilter={true} />
-      <div className="rounded-md border bg-sidebar w-full">
+      <div className="border bg-sidebar w-full">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

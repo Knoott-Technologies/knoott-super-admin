@@ -1,4 +1,4 @@
-import { CardCount } from "@/components/common/card-count";
+import { CardCount } from "@/components/common/cards/card-count";
 import { PageHeader } from "@/components/common/headers";
 import { DataTable } from "@/components/common/table/data-table";
 import { Database } from "@/database.types";
@@ -52,7 +52,7 @@ const GiftTablesPage = async () => {
           <CardCount count={totalPausedCount || 0} title="Mesas pausadas" />
           <CardCount count={totalClosedCount || 0} title="Mesas cerradas" />
         </div>
-        <DataTable rowAsLink columns={columns} data={giftTables} />
+        <DataTable rowAsLink basePath="/dashboard/gift-tables" columns={columns} data={giftTables} />
       </section>
     </main>
   );
