@@ -237,22 +237,22 @@ export const columns: ColumnDef<GiftTable>[] = [
   },
   {
     accessorKey: "total_contribution_count",
-    id: "Núm.",
+    id: "Contribuciones",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Núm." />
+      <DataTableColumnHeader column={column} title="Contribuciones" />
     ),
     cell: ({ row }) => {
       const count = row.original.total_contribution_count || 0;
       return (
-        <div className="flex items-center gap-2">
-          <kbd className="bg-background text-foreground ml-2 inline-flex h-5 items-center rounded border px-1 font-mono text-[10px] font-medium shrink-0">
+        <div className="flex items-center justify-center gap-2">
+          <kbd className="bg-background text-foreground inline-flex h-5 items-center rounded border px-1 font-mono text-[10px] font-medium shrink-0">
             {count}
           </kbd>
         </div>
       );
     },
-    size: 100,
-    minSize: 100,
-    maxSize: 100,
+    size: 80,
+    minSize: 80,
+    maxSize: 80,
   },
 ];

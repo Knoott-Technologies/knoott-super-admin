@@ -15,7 +15,7 @@ export const CardCount = ({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-0 items-start justify-end w-full h-full bg-sidebar">
-        <p className="text-3xl lg:text-4xl xl:text-5xl font-semibold">
+        <p className="text-2xl lg:text-3xl xl:text-4xl font-semibold">
           {count}
         </p>
       </CardContent>

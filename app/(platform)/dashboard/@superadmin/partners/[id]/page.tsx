@@ -2,14 +2,21 @@ import { TotalProductsCard } from "@/components/common/cards/total-products-card
 import { TotalTransactionsCard } from "@/components/common/cards/total-transaction-card";
 import { TotalTransactionsNumber } from "@/components/common/cards/total-transaction-number";
 import DateRangeSelector from "@/components/common/date-range-selector";
-import {
-    PageHeaderWithLogoBack,
-} from "@/components/common/headers";
+import { PageHeaderWithLogoBack } from "@/components/common/headers";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { endOfWeek, format, parse, startOfWeek } from "date-fns";
 import { es } from "date-fns/locale";
 import { redirect } from "next/navigation";
 import TransactionChart from "./_components/transaction-chart";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { DataTable } from "@/components/common/table/data-table";
+import { columns } from "./_components/transactions-columns";
 
 const ProviderBusinessDashboardPage = async ({
   params,
@@ -47,6 +54,7 @@ const ProviderBusinessDashboardPage = async ({
     totalProductsResult,
     totalTransactionsResult,
     transactionsResult,
+    transactionsResult2,
   ] = await Promise.all([
     supabase.from("provider_business").select("*").eq("id", params.id).single(),
     supabase
@@ -64,12 +72,18 @@ const ProviderBusinessDashboardPage = async ({
       .gte("created_at", fromDateStr)
       .lte("created_at", toDateStr)
       .order("created_at", { ascending: false }),
+    supabase
+      .from("provider_business_transactions")
+      .select("*")
+      .eq("provider_business_id", params.id)
+      .order("created_at", { ascending: false }),
   ]);
 
   const { data: business, error } = businessResult;
   const { count: totalProducts } = totalProductsResult;
   const { count: totalTransactions } = totalTransactionsResult;
   const { data: transactions } = transactionsResult;
+  const { data: transactions2 } = transactionsResult2;
 
   if (!business || error) {
     redirect("/");
@@ -95,6 +109,17 @@ const ProviderBusinessDashboardPage = async ({
           <TotalProductsCard total={totalProducts} />
         </div>
         <TransactionChart data={transactions} />
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Transacciones</CardTitle>
+            <CardDescription>
+              Todas las transacciones realizadas de este partner.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="bg-sidebar">
+            <DataTable data={transactions2 || []} columns={columns} />
+          </CardContent>
+        </Card>
       </section>
     </main>
   );

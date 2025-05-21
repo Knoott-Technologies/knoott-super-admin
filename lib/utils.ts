@@ -157,6 +157,61 @@ export const getWeddingStatusClassname = (
   }
 };
 
+export const getPaymentIntentStatusLabel = (
+  status:
+    | "canceled"
+    | "processing"
+    | "requires_action"
+    | "requires_capture"
+    | "requires_confirmation"
+    | "requires_payment_method"
+    | "succeeded"
+) => {
+  switch (status) {
+    case "canceled":
+      return "Cancelada";
+    case "processing":
+      return "Procesando";
+    case "requires_action":
+      return "Requiere acción";
+    case "requires_capture":
+      return "Requiere captura";
+    case "requires_confirmation":
+      return "Requiere confirmación";
+    case "requires_payment_method":
+      return "Requiere método de pago";
+    case "succeeded":
+      return "Exitosa";
+  }
+};
+
+export const getPaymentIntentStatusClassname = (
+  status:
+    | "canceled"
+    | "processing"
+    | "requires_action"
+    | "requires_capture"
+    | "requires_confirmation"
+    | "requires_payment_method"
+    | "succeeded"
+) =>
+  ({
+    canceled:
+      "bg-destructive/10 text-destructive hover:bg-destructive/10 hover:text-destructive",
+    processing:
+      "bg-primary/10 text-amber-600 hover:bg-primary/10 hover:text-amber-600",
+    requires_action:
+      "bg-primary/10 text-amber-600 hover:bg-primary/10 hover:text-amber-600",
+    requires_capture:
+      "bg-primary/10 text-amber-600 hover:bg-primary/10 hover:text-amber-600",
+    requires_confirmation:
+      "bg-primary/10 text-amber-600 hover:bg-primary/10 hover:text-amber-600",
+    requires_payment_method:
+      "bg-primary/10 text-amber-600 hover:bg-primary/10 hover:text-amber-600",
+    succeeded:
+      "bg-success/10 text-success hover:bg-success/10 hover:text-success",
+  }[status]);
+
 /**
  * Función auxiliar para acceder de forma segura a propiedades anidadas
  * @param obj El objeto del que queremos obtener la propiedad
