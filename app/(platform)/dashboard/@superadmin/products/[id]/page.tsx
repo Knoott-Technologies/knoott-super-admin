@@ -1,4 +1,7 @@
-import { PageHeaderLinkButton } from "@/components/common/headers";
+import {
+  PageHeaderBackButton,
+  PageHeaderLinkButton,
+} from "@/components/common/headers";
 import { Database } from "@/database.types";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
@@ -80,13 +83,14 @@ const ProductPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <main className="h-fit w-full md:max-w-[95%] px-3 md:px-0 py-5 pb-14 lg:py-7 mx-auto no-scrollbar">
-      <PageHeaderLinkButton
+      <PageHeaderBackButton
         title={product.short_name}
         description={product.short_description}
-        href={`/dashboard/mod/products`}
       >
-        <ProductActions id={product.id} />
-      </PageHeaderLinkButton>
+        {product.status === "requires_verification" && (
+          <ProductActions id={product.id} />
+        )}
+      </PageHeaderBackButton>
       <section className="w-full flex flex-col items-start justify-start gap-y-5 lg:gap-y-7">
         <ProductStats product={product} />
         <div className="w-full h-fit grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-5 lg:gap-7">

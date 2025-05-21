@@ -85,7 +85,9 @@ const ProductPage = async ({ params }: { params: { id: string } }) => {
         description={product.short_description}
         href={`/dashboard/mod/products`}
       >
-        <ProductActions id={product.id} />
+        {product.status === "requires_verification" && (
+          <ProductActions id={product.id} />
+        )}
       </PageHeaderLinkButton>
       <section className="w-full flex flex-col items-start justify-start gap-y-5 lg:gap-y-7">
         <ProductStats product={product} />

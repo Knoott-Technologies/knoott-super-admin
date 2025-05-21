@@ -6,6 +6,9 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { columns } from "./_components/product-columns";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export type Product = Database["public"]["Views"]["z_products"]["Row"];
 
 const UsersPage = async () => {
@@ -46,7 +49,12 @@ const UsersPage = async () => {
             title="Productos por verificar"
           />
         </div>
-        <DataTable rowAsLink basePath="/dashboard/products" columns={columns} data={users} />
+        <DataTable
+          rowAsLink
+          basePath="/dashboard/products"
+          columns={columns}
+          data={users}
+        />
       </section>
     </main>
   );
