@@ -67,7 +67,7 @@ const ProviderBusinessDashboardPage = async ({
           data={userContributions || []}
           columns={columns}
           rowAsLink
-          basePath="/dashboard/users/contributions"
+          basePath="/dashboard/users/contribution"
         />
       </section>
     </main>
