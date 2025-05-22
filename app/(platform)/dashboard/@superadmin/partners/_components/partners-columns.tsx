@@ -146,16 +146,24 @@ export const columns: ColumnDef<Partners>[] = [
     ),
     cell: ({ row }) => {
       const totalPendingSales = row.original.total_pending_sales || 0;
+
+      if (totalPendingSales === 0) {
+        return (
+          <div className="flex items-center gap-2">
+            <p className="truncate text-success font-semibold">0</p>
+          </div>
+        );
+      }
+
       return (
         <div className="flex items-center gap-2">
-          <p
+          <kbd
             className={cn(
-              "truncate",
-              totalPendingSales > 0 && "text-destructive" || "text-success"
+              "bg-destructive/5 inline-flex h-5 items-center -translate-x-1.5 border px-1.5 text-destructive border-destructive/50 font-mono text-[10px] font-medium shrink-0"
             )}
           >
             {totalPendingSales}
-          </p>
+          </kbd>
         </div>
       );
     },
