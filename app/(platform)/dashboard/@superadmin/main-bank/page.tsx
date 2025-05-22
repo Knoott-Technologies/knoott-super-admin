@@ -125,7 +125,7 @@ const GiftTablesPage = async ({
         >
           <AmountCard
             amount={balance?.current_balance || 0}
-            title="Balance histórico"
+            title="Balance actual"
           />
 
           {/* {fromDate && toDate && (
