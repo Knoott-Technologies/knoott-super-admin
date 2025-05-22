@@ -123,7 +123,7 @@ const DashboardPage = async ({
             title="Pagos pendientes"
           />
           <CardCount
-            href="/dashboard/partner-payments"
+            href="/dashboard/partners"
             warning={pendingConfirmOrders && pendingConfirmOrders > 0 ? true : false}
             count={pendingConfirmOrders || 0}
             title="Órdenes por confirmar"
