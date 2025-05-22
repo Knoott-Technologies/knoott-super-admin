@@ -219,9 +219,7 @@ export const SidebarChildren = ({
                 </SidebarMenuBadge>
               )) ||
                 (item.count === 0 && (
-                  <SidebarMenuBadge className="bg-background ring-1 ring-border text-[11px]">
-                    0
-                  </SidebarMenuBadge>
+                  null
                 ))}
             </SidebarMenuItem>
           ))}
