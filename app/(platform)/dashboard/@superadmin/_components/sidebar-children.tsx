@@ -1,5 +1,6 @@
 "use client";
 
+import { SheetClose } from "@/components/ui/sheet";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -9,6 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { SidebarGroupType } from "@/lib/sidebar-types";
 import {
   BanknoteArrowDown,
@@ -22,7 +24,7 @@ import {
   Store,
   Tag,
   UserCog2,
-  Users
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -41,6 +43,7 @@ export const SidebarChildren = ({
   };
 }) => {
   const pathname = usePathname();
+  const isMobile = useIsMobile();
 
   const sidebarContent: SidebarGroupType[] = [
     {
@@ -178,19 +181,38 @@ export const SidebarChildren = ({
         <SidebarMenu>
           {group.items.map((item, i) => (
             <SidebarMenuItem key={i}>
-              <SidebarMenuButton
-                tooltip={item.label}
-                asChild
-                isActive={
-                  (item.href === "/dashboard" && pathname === "/dashboard") ||
-                  pathname.startsWith(item.href)
-                }
-              >
-                <Link href={item.href} prefetch>
-                  <item.icon />
-                  <span>{item.label}</span>
-                </Link>
-              </SidebarMenuButton>
+              {(isMobile && (
+                <SheetClose asChild>
+                  <SidebarMenuButton
+                    tooltip={item.label}
+                    asChild
+                    isActive={
+                      (item.href === "/dashboard" &&
+                        pathname === "/dashboard") ||
+                      pathname.startsWith(item.href)
+                    }
+                  >
+                    <Link href={item.href} prefetch>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SheetClose>
+              )) || (
+                <SidebarMenuButton
+                  tooltip={item.label}
+                  asChild
+                  isActive={
+                    (item.href === "/dashboard" && pathname === "/dashboard") ||
+                    pathname.startsWith(item.href)
+                  }
+                >
+                  <Link href={item.href} prefetch>
+                    <item.icon />
+                    <span>{item.label}</span>
+                  </Link>
+                </SidebarMenuButton>
+              )}
               {(item.count && (
                 <SidebarMenuBadge className="bg-background ring-1 ring-border text-[11px]">
                   {item.count}
