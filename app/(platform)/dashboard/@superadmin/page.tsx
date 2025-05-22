@@ -104,7 +104,7 @@ const DashboardPage = async ({
             title="Balance actual"
           />
           <CardCount
-            href={`/dashboard/transactions?fromDate=${fromDateFormatted}&toDate=${toDateFormatted}`}
+            href={`/dashboard/gift-tables`}
             count={activeWeddings || 0}
             title="Mesas activas"
           />
