@@ -61,7 +61,7 @@ export function DataTablePagination<TData>({
     : table.getPageCount();
 
   return (
-    <div className="flex items-center justify-between px-2 w-full">
+    <div className="flex flex-col-reverse lg:flex-row items-center justify-between px-2 w-full gap-4 lg:gap-3">
       <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} de{" "}
         {table.getFilteredRowModel().rows.length} fila(s) seleccionada(s).
@@ -69,7 +69,7 @@ export function DataTablePagination<TData>({
           <span className="ml-2">(Total: {totalCount} registros)</span>
         )}
       </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
+      <div className="flex items-center lg:justify-end justify-between w-full lg:w-fit">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Filas por página</p>
           <Select
