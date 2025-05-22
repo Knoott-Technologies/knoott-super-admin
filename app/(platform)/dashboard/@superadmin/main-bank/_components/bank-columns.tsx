@@ -30,7 +30,7 @@ export const columns: ColumnDef<Transaction>[] = [
       return (
         <div className="flex items-center gap-2">
           <p className="truncate">
-            {formatInTimeZone(date, timeZone, "dd/MM/yyyy HH:mm:ss", {
+            {formatInTimeZone(date, timeZone, "PPP hh:mm:ss aa", {
               locale: es,
             })}
           </p>
@@ -150,9 +150,9 @@ export const columns: ColumnDef<Transaction>[] = [
         </div>
       );
     },
-    size: 280,
-    minSize: 260,
-    maxSize: 300,
+    size: 240,
+    minSize: 220,
+    maxSize: 260,
   },
   {
     accessorKey: "destination",

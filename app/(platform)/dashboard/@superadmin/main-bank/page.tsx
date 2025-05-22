@@ -158,11 +158,11 @@ const GiftTablesPage = async ({
 
           {/* Desglose de egresos por tipo */}
           {sortedOperationTypes.length > 0 && (
-            <Card>
+            <Card className="flex-1 flex flex-col gap-y-0">
               <CardHeader>
                 <CardTitle>Desglose por tipo</CardTitle>
               </CardHeader>
-              <CardContent className="bg-sidebar flex flex-col gap-y-1">
+              <CardContent className="bg-sidebar flex flex-col gap-y-1 h-full">
                 {sortedOperationTypes.map(({ type, amount, percentage }) => (
                   <div
                     key={type}
