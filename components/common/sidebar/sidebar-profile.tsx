@@ -73,7 +73,7 @@ export const SidebarProfile = ({
         </p>
       </div>
 
-      <div className="p-1">
+      {/* <div className="p-1">
         <Button
           variant={"ghost"}
           className="w-full justify-between text-muted-foreground mb-1"
@@ -88,7 +88,7 @@ export const SidebarProfile = ({
             <ArrowRight className="!size-3.5 flex-shrink-0 ml-2" />
           </Link>
         </Button>
-      </div>
+      </div> */}
 
       <div className="p-1 pb-8 md:pb-3">
         <Button
@@ -210,24 +210,6 @@ export const SidebarProfile = ({
                   </span>
                 </DropdownMenuLabel>
               </DropdownMenuGroup>
-              <DropdownMenuGroup className="p-1 pb-0">
-                <DropdownMenuItem asChild>
-                  <Button
-                    variant={"ghost"}
-                    className="w-full justify-between text-muted-foreground"
-                    asChild
-                  >
-                    <Link
-                      href={`/settings/${user.id}/profile`}
-                      className="flex items-center justify-between w-full"
-                    >
-                      <span className="truncate">Mi Perfil</span>
-                      <ArrowRight className="!size-3.5 flex-shrink-0 ml-2" />
-                    </Link>
-                  </Button>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
               <DropdownMenuGroup className="p-1 pt-0">
                 <DropdownMenuItem
                   onClick={signOut}
