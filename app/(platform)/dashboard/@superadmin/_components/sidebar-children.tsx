@@ -214,7 +214,7 @@ export const SidebarChildren = ({
                 </SidebarMenuButton>
               )}
               {(item.count && (
-                <SidebarMenuBadge className="bg-destructive/10 ring-1 ring-destructive/50 text-[11px] text-destructive">
+                <SidebarMenuBadge className="bg-destructive/10 ring-1 ring-destructive/50 text-[11px] text-destructive peer-data-[active=true]/menu-button:text-destructive">
                   {item.count}
                 </SidebarMenuBadge>
               )) ||
