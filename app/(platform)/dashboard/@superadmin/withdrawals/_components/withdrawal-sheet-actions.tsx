@@ -32,6 +32,7 @@ export const WithdrawalSheetActions = ({ data }: { data: Withdrawal }) => {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [userAmount, setUserAmount] = useState<number>(0);
   const [kcaAmount, setKcaAmount] = useState<number>(0);
   const [error, setError] = useState("");
@@ -85,6 +86,7 @@ export const WithdrawalSheetActions = ({ data }: { data: Withdrawal }) => {
       toast.success("Retiro confirmado exitosamente");
       router.refresh();
       setIsDialogOpen(false);
+      setIsSheetOpen(false);
     } catch (error) {
       toast.error("Error al confirmar el retiro");
       console.error(error);
@@ -95,7 +97,7 @@ export const WithdrawalSheetActions = ({ data }: { data: Withdrawal }) => {
 
   return (
     <>
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button size={"sm"} className="h-7 text-xs gap-1" variant={"outline"}>
             Completar <ArrowRight className="!size-3.5" />

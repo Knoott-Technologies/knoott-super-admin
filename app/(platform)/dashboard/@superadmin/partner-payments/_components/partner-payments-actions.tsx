@@ -31,6 +31,7 @@ import { Input } from "@/components/ui/input";
 export const PartnerPaymentsActions = ({ data }: { data: PartnerPayment }) => {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -95,8 +96,9 @@ export const PartnerPaymentsActions = ({ data }: { data: PartnerPayment }) => {
       }
 
       toast.success("Pago confirmado exitosamente");
-      router.refresh();
       setIsDialogOpen(false);
+      setIsSheetOpen(false);
+      router.refresh();
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Error al confirmar el pago"
@@ -109,7 +111,7 @@ export const PartnerPaymentsActions = ({ data }: { data: PartnerPayment }) => {
 
   return (
     <>
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button size={"sm"} className="h-7 text-xs gap-1" variant={"outline"}>
             Completar <ArrowRight className="!size-3.5" />
