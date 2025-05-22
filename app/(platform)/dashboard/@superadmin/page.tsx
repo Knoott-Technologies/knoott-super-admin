@@ -97,7 +97,7 @@ const DashboardPage = async ({
         <DateRangeSelector />
       </PageHeader>
       <section className="w-full h-fit items-start justify-start flex flex-col gap-y-5 lg:gap-y-7">
-        <div className="w-full h-fit grid grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-7 ease-in-out transition-all duration-300">
+        <div className="w-full h-fit grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-5 lg:gap-7 ease-in-out transition-all duration-300">
           <AmountCard
             href="/dashboard/main-bank"
             amount={balance?.current_balance || 0}
