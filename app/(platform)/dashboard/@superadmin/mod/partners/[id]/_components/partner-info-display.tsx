@@ -333,7 +333,7 @@ export function PartnerInfoDisplay({
                   <h4 className="text-sm font-medium">Comisión</h4>
                   <p className="text-sm text-muted-foreground">
                     {typeof business.commission_percentage === "number"
-                      ? `${business.commission_percentage * 100}%`
+                      ? `${(business.commission_percentage * 100).toFixed(2)}%`
                       : "No especificada"}
                   </p>
                 </div>
