@@ -27,6 +27,8 @@ import { DataTablePagination } from "./pagination";
 import { useState } from "react";
 import { DataTableFiltersFromColumns } from "./toolbar";
 import { useRouter } from "next/navigation";
+import { DataTableBulkActions } from "./data-table-bulk-actions";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface DataTableProps<TData extends object, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -48,6 +50,16 @@ interface DataTableProps<TData extends object, TValue> {
   hasMoreData?: boolean;
   isLoadingMore?: boolean;
   totalCount?: number;
+  // Bulk actions props
+  enableRowSelection?: boolean;
+  enableBulkActions?: boolean;
+  entityType?: string;
+  bulkApproveAction?: (
+    ids: string[]
+  ) => Promise<{ success: boolean; error?: string }>;
+  bulkRejectAction?: (
+    ids: string[]
+  ) => Promise<{ success: boolean; error?: string }>;
 }
 
 export function DataTable<TData extends object, TValue>({
@@ -61,6 +73,11 @@ export function DataTable<TData extends object, TValue>({
   hasMoreData = false,
   isLoadingMore = false,
   totalCount,
+  enableRowSelection = false,
+  enableBulkActions = false,
+  entityType,
+  bulkApproveAction,
+  bulkRejectAction,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
 
@@ -76,9 +93,40 @@ export function DataTable<TData extends object, TValue>({
   );
   const [globalFilter, setGlobalFilter] = useState<string>("");
 
+  // Añadir columna de selección si enableRowSelection es true
+  const selectionColumn: ColumnDef<TData, any> = {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        onClick={(e) => e.stopPropagation()}
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+    size: 40,
+  };
+
+  // Añadir columna de selección al principio si enableRowSelection es true
+  const tableColumns = enableRowSelection
+    ? [selectionColumn, ...columns]
+    : columns;
+
   const table = useReactTable({
     data,
-    columns,
+    columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -113,7 +161,19 @@ export function DataTable<TData extends object, TValue>({
 
   return (
     <section className="flex flex-col gap-y-4 items-start justify-start w-full">
-      <DataTableFiltersFromColumns table={table} showGlobalFilter={true} />
+      <div className="flex flex-col sm:flex-row sm:justify-between w-full gap-4">
+        <DataTableFiltersFromColumns table={table} showGlobalFilter={true} />
+      </div>
+      {enableBulkActions && enableRowSelection && (
+          <DataTableBulkActions
+            table={table}
+            entityType={entityType || ""}
+            approveAction={bulkApproveAction}
+            rejectAction={bulkRejectAction}
+            idField={idField as keyof TData}
+            successRedirectPath={basePath}
+          />
+      )}
       <div className="border bg-sidebar w-full">
         <Table>
           <TableHeader>
@@ -137,7 +197,7 @@ export function DataTable<TData extends object, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
-                if (rowAsLink) {
+                if (rowAsLink && !enableRowSelection) {
                   return (
                     <TableRow
                       key={row.id}
@@ -192,10 +252,45 @@ export function DataTable<TData extends object, TValue>({
                   );
                 }
 
+                // Si enableRowSelection es true, permitir selección y navegación
+                const handleRowClick = () => {
+                  if (!rowAsLink) return;
+
+                  // Verificar si el campo especificado existe en el objeto original
+                  let idValue: string | undefined;
+
+                  if (idField in row.original) {
+                    // Si el campo especificado existe, usarlo
+                    idValue = String(
+                      row.original[idField as keyof typeof row.original]
+                    );
+                  } else if ("id" in row.original) {
+                    // Si no existe el campo especificado pero existe 'id', usar 'id'
+                    idValue = String((row.original as any).id);
+                  } else {
+                    // Si no hay campo ID disponible, usar el índice de la fila como fallback
+                    idValue = String(row.index);
+                    console.warn(
+                      `No se encontró el campo '${idField}' ni 'id' en los datos de la fila. Usando índice de fila como fallback.`
+                    );
+                  }
+
+                  // Construir la ruta completa
+                  const path = basePath
+                    ? `${basePath}/${idValue}`.replace(/\/+/g, "/") // Evitar dobles barras
+                    : idValue;
+
+                  router.push(path);
+                };
+
                 return (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
+                    className={
+                      rowAsLink ? "!cursor-pointer hover:bg-muted/50" : ""
+                    }
+                    onClick={rowAsLink ? handleRowClick : undefined}
                   >
                     {row.getVisibleCells().map((cell) => {
                       const maxWidth = cell.column.columnDef.maxSize;
@@ -220,7 +315,7 @@ export function DataTable<TData extends object, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={columns.length + (enableRowSelection ? 1 : 0)}
                   className="h-24 text-center"
                 >
                   {isLoadingMore ? "Cargando más datos..." : "Sin resultados"}

@@ -1,8 +1,9 @@
 import { PageHeader } from "@/components/common/headers";
 import { DataTable } from "@/components/common/table/data-table";
-import { Database } from "@/database.types";
+import type { Database } from "@/database.types";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { columns } from "./_components/brands-mod-columns";
+import { bulkApproveBrands, bulkRejectBrands } from "@/app/actions/mod-actions";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -29,6 +30,11 @@ const PartnersModPAge = async () => {
           data={providers || []}
           basePath="/dashboard/mod/brands"
           idField="id"
+          enableRowSelection={true}
+          enableBulkActions={true}
+          entityType="brands"
+          bulkApproveAction={bulkApproveBrands}
+          bulkRejectAction={bulkRejectBrands}
         />
       </section>
     </main>
