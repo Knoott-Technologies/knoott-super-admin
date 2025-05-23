@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { revalidatePath } from "next/cache";
 
 export async function POST(
   request: NextRequest,
@@ -34,6 +35,8 @@ export async function POST(
         { status: 500 }
       );
     }
+
+    revalidatePath("(platform)/@superadmin/dashboard/mod/categories", "page");
 
     return NextResponse.json({ success: true });
   } catch (error) {

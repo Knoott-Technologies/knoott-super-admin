@@ -36,8 +36,6 @@ const CategoryVerifyPage = async ({ params }: { params: { id: string } }) => {
 
     if (!parentError && parent) {
       parentCategory = parent;
-    } else {
-      console.log("Error al obtener el padre o no existe:", parentError);
     }
   }
 

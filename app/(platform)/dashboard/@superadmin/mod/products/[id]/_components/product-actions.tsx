@@ -51,8 +51,7 @@ export const ProductActions = ({ id }: { id: string }) => {
         toast.success("Producto aprobado", {
           description: "El producto ha sido aprobado exitosamente.",
         });
-        router.refresh();
-        router.push("/dashboard/mod/products");
+        window.location.href = "/dashboard/mod/products";
       }, 100);
     } catch (error) {
       toast.error("Error", {
@@ -92,8 +91,7 @@ export const ProductActions = ({ id }: { id: string }) => {
         toast.success("Producto rechazado", {
           description: "El producto ha sido rechazado.",
         });
-        router.refresh();
-        router.push("/dashboard/mod/products");
+        window.location.href = "/dashboard/mod/products";
       }, 100);
     } catch (error) {
       toast.error("Error", {

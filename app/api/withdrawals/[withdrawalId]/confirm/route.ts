@@ -24,8 +24,6 @@ export async function POST(
       .eq("id", withdrawalId)
       .select();
 
-      console.log(data, error);
-
     if (error) {
       console.error("Error updating transaction:", error);
       return NextResponse.json(

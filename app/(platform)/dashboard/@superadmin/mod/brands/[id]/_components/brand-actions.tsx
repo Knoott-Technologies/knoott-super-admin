@@ -49,8 +49,7 @@ export const BrandActions = ({ id }: { id: string }) => {
         toast.success("Marca aprobada", {
           description: "La marca ha sido aprobada exitosamente.",
         });
-        router.refresh();
-        router.push("/dashboard/mod/brands");
+        window.location.href = "/dashboard/mod/brands";
       }, 100);
     } catch (error) {
       toast.error("Error", {
@@ -82,8 +81,7 @@ export const BrandActions = ({ id }: { id: string }) => {
         toast.success("Marca eliminada", {
           description: "La marca ha sido eliminada exitosamente.",
         });
-        router.refresh();
-        router.push("/dashboard/mod/brands");
+        window.location.href = "/dashboard/mod/brands";
       }, 100);
     } catch (error) {
       toast.error("Error", {

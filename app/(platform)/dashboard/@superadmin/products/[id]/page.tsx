@@ -33,8 +33,6 @@ const ProductPage = async ({ params }: { params: { id: string } }) => {
     .eq("id", params.id)
     .single();
 
-  console.log(product, error);
-
   if (!product || error) {
     redirect(`/dashboard/mod/products`);
   }

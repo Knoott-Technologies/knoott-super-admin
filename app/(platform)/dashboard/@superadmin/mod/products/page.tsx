@@ -5,9 +5,6 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { columns } from "./_components/products-mod-columns";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 export type Product = Database["public"]["Views"]["z_products"]["Row"];
 
 const ProductsModPage = async () => {

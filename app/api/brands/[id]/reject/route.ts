@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { revalidatePath } from "next/cache";
 
 export async function POST(
   request: NextRequest,
@@ -16,10 +17,7 @@ export async function POST(
       .single();
 
     if (fetchError || !collectionRecord) {
-      return NextResponse.json(
-        { error: "Brand not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Brand not found" }, { status: 404 });
     }
 
     // Delete the collection
@@ -34,6 +32,8 @@ export async function POST(
         { status: 500 }
       );
     }
+
+    revalidatePath("(platform)/@superadmin/dashboard/mod/brands", "page");
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -49,8 +49,7 @@ export const CatalogCollectionActions = ({ id }: { id: string }) => {
         toast.success("Colección aprobada", {
           description: "La colección ha sido aprobada exitosamente.",
         });
-        router.refresh();
-        router.push("/dashboard/mod/categories");
+         window.location.href = "/dashboard/mod/categories";
       }, 100);
     } catch (error) {
       toast.error("Error", {
@@ -82,8 +81,7 @@ export const CatalogCollectionActions = ({ id }: { id: string }) => {
         toast.success("Colección eliminada", {
           description: "La colección ha sido eliminada exitosamente.",
         });
-        router.refresh();
-        router.push("/dashboard/mod/categories");
+         window.location.href = "/dashboard/mod/categories";
       }, 100);
     } catch (error) {
       toast.error("Error", {
