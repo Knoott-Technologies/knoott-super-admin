@@ -121,10 +121,6 @@ export function LoginForm() {
 
   return (
     <Card className="w-full max-w-lg shadow-md bg-background z-10">
-      <CardHeader className="bg-sidebar">
-        <CardTitle>Ingresa a tu cuenta</CardTitle>
-        <CardDescription>Ingresa tus datos para continuar</CardDescription>
-      </CardHeader>
       <CardContent>
         <Form {...form}>
           <form
@@ -139,7 +135,7 @@ export function LoginForm() {
                 <FormItem>
                   <FormLabel>Correo electrónico:</FormLabel>
                   <FormControl>
-                    <Input placeholder="email@email.com" {...field} />
+                    <Input className="bg-sidebar" placeholder="email@email.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -154,7 +150,7 @@ export function LoginForm() {
                   <FormControl>
                     <div className="relative">
                       <Input
-                        className="pe-9"
+                        className="pe-9 bg-sidebar"
                         placeholder="Password"
                         {...field}
                         type={isVisible ? "text" : "password"}

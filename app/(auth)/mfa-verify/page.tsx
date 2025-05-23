@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { MfaVerification } from "./_components/mfa-verification";
+import { PageHeader } from "@/components/common/headers";
+import { Icon } from "@/components/common/logo";
 
 const MfaVerifyPage = async () => {
   const supabase = await createClient();
@@ -33,8 +35,15 @@ const MfaVerifyPage = async () => {
   }
 
   return (
-    <main className="w-full h-dvh place-items-center flex justify-center">
-      <MfaVerification />
+    <main className="w-full h-dvh place-items-center flex justify-center relative overflow-hidden px-5 md:px-7 lg:px-0">
+      <div className="flex items-start justify-start flex-col w-full max-w-lg">
+        <PageHeader
+          title="Verfica tu código"
+          description="Ingresa el código de 6 dígitos de tu aplicación de autenticación."
+        />
+        <MfaVerification />
+      </div>
+      <Icon className="absolute w-[180%] lg:w-[70%] h-auto lg:h-auto bottom-0 translate-y-1/2 opacity-5" />
     </main>
   );
 };

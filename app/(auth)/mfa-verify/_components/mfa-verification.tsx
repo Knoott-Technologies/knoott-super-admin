@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
 import { AlertCircle } from "lucide-react";
 import { useState } from "react";
@@ -70,13 +71,7 @@ export const MfaVerification = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Verificación de Autenticación</CardTitle>
-        <CardDescription>
-          Ingresa el código de tu aplicación de autenticación
-        </CardDescription>
-      </CardHeader>
+    <Card className="w-full z-10 shadow-md">
       <CardContent className="space-y-4">
         {error && (
           <Alert variant="destructive">
@@ -85,19 +80,22 @@ export const MfaVerification = () => {
           </Alert>
         )}
         <div className="space-y-2">
+          <Label>Ingresa el código de verificación</Label>
           <Input
             type="text"
             value={verifyCode}
             onChange={(e) => setVerifyCode(e.target.value.trim())}
             placeholder="Código de 6 dígitos"
             maxLength={6}
+            className="bg-sidebar"
           />
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="bg-sidebar border-t">
         <Button
           onClick={onSubmitClicked}
           className="w-full"
+          variant={"defaultBlack"}
           disabled={isLoading || verifyCode.length !== 6}
         >
           {isLoading ? "Verificando..." : "Verificar"}
