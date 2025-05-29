@@ -23,7 +23,8 @@ const UsersPage = async () => {
       .from("z_products")
       .select("*")
       .neq("status", "deleted")
-      .neq("status", "rejected"),
+      .neq("status", "rejected")
+      .order("created_at", { ascending: false }),
     supabase
       .from("z_products")
       .select("*", { count: "exact", head: true })

@@ -56,24 +56,9 @@ export const ProductVariantInfo = ({
                             className="object-cover"
                           />
                         </div>
-                        {option.images_url.length > 1 && (
-                          <Button
-                            variant={"outline"}
-                            size={"sm"}
-                            className="w-full bg-sidebar"
-                          >
-                            Ver {option.images_url.length}
-                            <ArrowRight className="!size-3.5" />
-                          </Button>
-                        )}
                       </div>
-                    )) || (
-                      <div className="max-w-[120px] w-full shrink-0 flex flex-col items-start justify-start gap-y-2">
-                        <div className="w-full aspect-[3/4] relative text-muted-foreground/50 overflow-hidden bg-background flex text-center text-sm items-center justify-center border p-3">
-                          <Images className="size-4" />
-                        </div>
-                      </div>
-                    )}
+                    )) ||
+                      null}
                     <div className="flex-1 items-start justify-between flex flex-col gap-2 py-2">
                       <span className="w-full h-fit items-start justify-between flex">
                         <span className="flex flex-col gap-y-1">

@@ -28,7 +28,7 @@ export const columns: ColumnDef<Transaction>[] = [
       return (
         <div className="flex items-center gap-2">
           <p className="truncate">
-            {formatInTimeZone(date, timeZone, "dd/MM/yyyy HH:mm:ss", {
+            {formatInTimeZone(date, timeZone, "dd/MM/yyyy hh:mm:ss aa", {
               locale: es,
             })}
           </p>

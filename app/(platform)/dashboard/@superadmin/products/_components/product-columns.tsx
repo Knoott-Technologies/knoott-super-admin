@@ -12,6 +12,10 @@ import {
 import type { ColumnDef } from "@tanstack/react-table";
 import { CircleDashed, ListTree, Store, Tag } from "lucide-react";
 import { Product } from "../page";
+import { formatInTimeZone } from "date-fns-tz";
+import { es } from "date-fns/locale";
+
+const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -181,5 +185,28 @@ export const columns: ColumnDef<Product>[] = [
       label: "Partner",
       icon: Store,
     } as ColumnFilterMeta,
+  },
+  {
+    id: "Creado",
+    accessorKey: "created_at",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Creado" />
+    ),
+    cell: ({ row }) => {
+      const created_at = row.original.created_at!;
+
+      return (
+        <div>
+          <p className="truncate">
+            {formatInTimeZone(created_at, timeZone, "dd/MM/yyyy hh:mm a", {
+              locale: es,
+            })}
+          </p>
+        </div>
+      );
+    },
+    maxSize: 120,
+    minSize: 120,
+    size: 120,
   },
 ];
