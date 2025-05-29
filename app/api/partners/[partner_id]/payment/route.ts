@@ -53,7 +53,7 @@ export async function POST(
     }
 
     const transactionCount = (count || 0) + 1;
-    const reference = `${providerData.reference}-${transactionCount}`;
+    const reference = `${providerData.reference}${transactionCount}`;
 
     // Upload receipt to Supabase Storage
     const fileExtension = receipt.name.split(".").pop();
