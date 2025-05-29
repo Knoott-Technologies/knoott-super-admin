@@ -24,7 +24,7 @@ export async function POST(
     const { error: updateError } = await supabase
       .from("products")
       .update({
-        status: "draft",
+        status: "active",
         // Clear any previous rejection reason if it exists
         rejected_reason: null,
       })
