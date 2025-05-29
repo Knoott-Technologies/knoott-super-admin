@@ -32,10 +32,13 @@ const ProviderBusinessDashboardPage = async ({
     ]);
 
   const { data: userInfo, error } = userInfoResult;
-  const { data: userBehavior } = userBehaviorResult;
-  const { data: userContributions } = userContributionsResult;
+  const { data: userBehavior , error: userBehaviorError} = userBehaviorResult;
+  const { data: userContributions, error: userContributionsError } = userContributionsResult;
 
-  if (!userInfo || !userBehavior || error) {
+  console.log("errors", error, userBehaviorError, userContributionsError);
+  
+
+  if (userContributionsError || userBehaviorError || error) {
     redirect("/");
   }
 
