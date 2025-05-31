@@ -100,16 +100,16 @@ export const columns: ColumnDef<Product>[] = [
         <div className="flex items-center gap-2">
           <Badge
             variant={"secondary"}
-            className={cn("capitalize", getProductStatusClassNames(status))}
+            className={cn("capitalize text-nowrap", getProductStatusClassNames(status))}
           >
             {getProductStatusLabel(status)}
           </Badge>
         </div>
       );
     },
-    size: 80,
-    minSize: 80,
-    maxSize: 80,
+    size: 100,
+    minSize: 180,
+    maxSize: 120,
     meta: {
       filterVariant: "select",
       label: "Estatus",
