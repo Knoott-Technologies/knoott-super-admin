@@ -17,6 +17,7 @@ const PartnersModPAge = async () => {
       .from("provider_business")
       .select("*")
       .eq("is_verified", false)
+      .neq("rejected_reason", null)
       .order("created_at", { ascending: false }),
   ]);
 
@@ -24,7 +25,7 @@ const PartnersModPAge = async () => {
     <main className="h-fit w-full md:max-w-[95%] px-3 md:px-0 py-5 pb-14 lg:py-7 mx-auto no-scrollbar">
       <PageHeader
         title="Partners por verificar"
-         description="Visualiza y verifica los partners dentro de la plataforma."
+        description="Visualiza y verifica los partners dentro de la plataforma."
       />
       <section className="w-full h-fit items-start justify-start flex flex-col gap-y-5 lg:gap-y-7">
         <DataTable

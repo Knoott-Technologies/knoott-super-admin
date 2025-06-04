@@ -39,11 +39,13 @@ const SuperadminLayout = async ({
     admin
       .from("z_provider_business")
       .select("*", { count: "exact", head: true })
-      .eq("status", false),
+      .eq("status", false)
+      .neq("rejected_reason", null),
     admin
       .from("z_products")
       .select("*", { count: "exact", head: true })
-      .eq("status", "requires_verification"),
+      .eq("status", "requires_verification")
+      .eq("partner_verified", true),
     admin
       .from("z_catalog_collections")
       .select("*", { count: "exact", head: true })

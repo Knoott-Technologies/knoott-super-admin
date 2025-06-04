@@ -15,7 +15,8 @@ const ProductsModPage = async () => {
     supabase
       .from("z_products")
       .select("*")
-      .eq("status", "requires_verification"),
+      .eq("status", "requires_verification")
+      .eq("partner_verified", true),
   ]);
 
   if (error || !giftTables) {

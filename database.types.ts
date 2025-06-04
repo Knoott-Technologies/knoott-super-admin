@@ -224,6 +224,13 @@ export type Database = {
             foreignKeyName: "catalog_banners_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
+            referencedRelation: "c_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_banners_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
@@ -310,6 +317,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      delivery_zones: {
+        Row: {
+          city: string
+          country: string
+          created_at: string
+          id: string
+          state: string
+          zone_hash: string
+        }
+        Insert: {
+          city: string
+          country?: string
+          created_at?: string
+          id?: string
+          state: string
+          zone_hash: string
+        }
+        Update: {
+          city?: string
+          country?: string
+          created_at?: string
+          id?: string
+          state?: string
+          zone_hash?: string
+        }
+        Relationships: []
       }
       gift_cards: {
         Row: {
@@ -558,6 +592,7 @@ export type Database = {
           id: number
           images_url: string[]
           keywords: string[] | null
+          metadata: Json | null
           name: string
           presence_in_gifts: number
           provider_business_id: string | null
@@ -579,6 +614,7 @@ export type Database = {
           id?: number
           images_url?: string[]
           keywords?: string[] | null
+          metadata?: Json | null
           name: string
           presence_in_gifts?: number
           provider_business_id?: string | null
@@ -600,6 +636,7 @@ export type Database = {
           id?: number
           images_url?: string[]
           keywords?: string[] | null
+          metadata?: Json | null
           name?: string
           presence_in_gifts?: number
           provider_business_id?: string | null
@@ -752,6 +789,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "c_products"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "product_variants_product_id_fkey"
             columns: ["product_id"]
@@ -972,6 +1016,49 @@ export type Database = {
           },
         ]
       }
+      provider_delivery_zones: {
+        Row: {
+          created_at: string
+          delivery_zone_id: string
+          id: string
+          provider_business_id: string
+        }
+        Insert: {
+          created_at?: string
+          delivery_zone_id: string
+          id?: string
+          provider_business_id: string
+        }
+        Update: {
+          created_at?: string
+          delivery_zone_id?: string
+          id?: string
+          provider_business_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_delivery_zones_delivery_zone_id_fkey"
+            columns: ["delivery_zone_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_zones"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_delivery_zones_provider_business_id_fkey"
+            columns: ["provider_business_id"]
+            isOneToOne: false
+            referencedRelation: "provider_business"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_delivery_zones_provider_business_id_fkey"
+            columns: ["provider_business_id"]
+            isOneToOne: false
+            referencedRelation: "z_provider_business"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       push_subscriptions: {
         Row: {
           app_reference: string
@@ -1017,161 +1104,23 @@ export type Database = {
           },
         ]
       }
-      shopify_auth_states: {
+      refresh_log: {
         Row: {
-          business_id: string
-          created_at: string
-          id: string
-          state: string
-          user_id: string
+          needs_refresh: boolean | null
+          table_name: string
+          updated_at: string | null
         }
         Insert: {
-          business_id: string
-          created_at?: string
-          id?: string
-          state: string
-          user_id: string
+          needs_refresh?: boolean | null
+          table_name: string
+          updated_at?: string | null
         }
         Update: {
-          business_id?: string
-          created_at?: string
-          id?: string
-          state?: string
-          user_id?: string
+          needs_refresh?: boolean | null
+          table_name?: string
+          updated_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "shopify_auth_states_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "provider_business"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "shopify_auth_states_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "z_provider_business"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      shopify_integrations: {
-        Row: {
-          access_token: string | null
-          auto_sync: boolean | null
-          business_id: string
-          category_mapping: Json | null
-          connected_at: string | null
-          created_at: string
-          id: string
-          last_synced: string | null
-          product_count: number | null
-          scope: string | null
-          shop_currency: string | null
-          shop_domain: string
-          shop_email: string | null
-          shop_locale: string | null
-          shop_name: string | null
-          shop_owner: string | null
-          shop_plan: string | null
-          shop_timezone: string | null
-          state: string | null
-          status: string
-          sync_completed_at: string | null
-          sync_error: string | null
-          sync_frequency: string | null
-          sync_inventory: boolean | null
-          sync_prices: boolean | null
-          sync_products: boolean | null
-          sync_progress: number | null
-          sync_started_at: string | null
-          sync_status: string | null
-          updated_at: string
-          webhooks: Json | null
-        }
-        Insert: {
-          access_token?: string | null
-          auto_sync?: boolean | null
-          business_id: string
-          category_mapping?: Json | null
-          connected_at?: string | null
-          created_at?: string
-          id?: string
-          last_synced?: string | null
-          product_count?: number | null
-          scope?: string | null
-          shop_currency?: string | null
-          shop_domain: string
-          shop_email?: string | null
-          shop_locale?: string | null
-          shop_name?: string | null
-          shop_owner?: string | null
-          shop_plan?: string | null
-          shop_timezone?: string | null
-          state?: string | null
-          status?: string
-          sync_completed_at?: string | null
-          sync_error?: string | null
-          sync_frequency?: string | null
-          sync_inventory?: boolean | null
-          sync_prices?: boolean | null
-          sync_products?: boolean | null
-          sync_progress?: number | null
-          sync_started_at?: string | null
-          sync_status?: string | null
-          updated_at?: string
-          webhooks?: Json | null
-        }
-        Update: {
-          access_token?: string | null
-          auto_sync?: boolean | null
-          business_id?: string
-          category_mapping?: Json | null
-          connected_at?: string | null
-          created_at?: string
-          id?: string
-          last_synced?: string | null
-          product_count?: number | null
-          scope?: string | null
-          shop_currency?: string | null
-          shop_domain?: string
-          shop_email?: string | null
-          shop_locale?: string | null
-          shop_name?: string | null
-          shop_owner?: string | null
-          shop_plan?: string | null
-          shop_timezone?: string | null
-          state?: string | null
-          status?: string
-          sync_completed_at?: string | null
-          sync_error?: string | null
-          sync_frequency?: string | null
-          sync_inventory?: boolean | null
-          sync_prices?: boolean | null
-          sync_products?: boolean | null
-          sync_progress?: number | null
-          sync_started_at?: string | null
-          sync_status?: string | null
-          updated_at?: string
-          webhooks?: Json | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "shopify_integrations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "provider_business"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "shopify_integrations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "z_provider_business"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       user_carts: {
         Row: {
@@ -1643,6 +1592,13 @@ export type Database = {
             foreignKeyName: "wedding_product_orders_catalog_product_id_fkey"
             columns: ["catalog_product_id"]
             isOneToOne: false
+            referencedRelation: "c_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wedding_product_orders_catalog_product_id_fkey"
+            columns: ["catalog_product_id"]
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
@@ -1796,6 +1752,13 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "wedding_product_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wedding_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "c_products"
             referencedColumns: ["id"]
           },
           {
@@ -2055,6 +2018,89 @@ export type Database = {
       }
     }
     Views: {
+      c_products: {
+        Row: {
+          avg_price: number | null
+          brand_id: number | null
+          created_at: string | null
+          description: string | null
+          dimensions: Json | null
+          embedding: string | null
+          has_good_stock: boolean | null
+          has_stock: boolean | null
+          id: number | null
+          images_url: string[] | null
+          keywords: string[] | null
+          max_price: number | null
+          metadata: Json | null
+          min_price: number | null
+          name: string | null
+          option_count: number | null
+          presence_in_gifts: number | null
+          provider_business_id: string | null
+          rejected_reason: string | null
+          shipping_cost: number | null
+          short_description: string | null
+          short_name: string | null
+          specs: Json | null
+          status: Database["public"]["Enums"]["product_status"] | null
+          subcategory_id: number | null
+          total_stock: number | null
+          updated_at: string | null
+          variant_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "random_brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_provider_business_id_fkey"
+            columns: ["provider_business_id"]
+            isOneToOne: false
+            referencedRelation: "provider_business"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_provider_business_id_fkey"
+            columns: ["provider_business_id"]
+            isOneToOne: false
+            referencedRelation: "z_provider_business"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "z_catalog_collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       random_brands: {
         Row: {
           created_at: string | null
@@ -2217,6 +2263,7 @@ export type Database = {
           images_url: string[] | null
           name: string | null
           partner: string | null
+          partner_verified: boolean | null
           price: number | null
           shipping_cost: number | null
           status: Database["public"]["Enums"]["product_status"] | null
@@ -2268,6 +2315,10 @@ export type Database = {
       }
     }
     Functions: {
+      batch_process_delivery_zones: {
+        Args: { p_business_id: string; p_zones: Json }
+        Returns: Json
+      }
       bytea_to_text: {
         Args: { data: string }
         Returns: string
@@ -2276,8 +2327,50 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      cleanup_old_sync_jobs: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      get_available_products_optimized: {
+        Args: {
+          p_city: string
+          p_state: string
+          p_category_id?: number
+          p_brand_id?: number
+          p_limit?: number
+          p_offset?: number
+        }
+        Returns: {
+          id: number
+          name: string
+          short_name: string
+          description: string
+          short_description: string
+          images_url: string[]
+          subcategory_id: number
+          brand_id: number
+          provider_business_id: string
+          brand_name: string
+          provider_name: string
+          category_name: string
+          min_stock: number
+          total_count: number
+        }[]
+      }
+      get_categories_with_product_count: {
+        Args: { p_city: string; p_state: string }
+        Returns: {
+          category_id: number
+          category_name: string
+          product_count: number
+        }[]
+      }
       get_current_user_info: {
         Args: { business_id: string }
+        Returns: Json
+      }
+      get_provider_zones_stats: {
+        Args: { p_business_id: string }
         Returns: Json
       }
       get_user_provider_ids: {
@@ -2286,21 +2379,21 @@ export type Database = {
       }
       http: {
         Args: { request: Database["public"]["CompositeTypes"]["http_request"] }
-        Returns: unknown
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
       }
       http_delete: {
         Args:
           | { uri: string }
           | { uri: string; content: string; content_type: string }
-        Returns: unknown
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
       }
       http_get: {
         Args: { uri: string } | { uri: string; data: Json }
-        Returns: unknown
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
       }
       http_head: {
         Args: { uri: string }
-        Returns: unknown
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
       }
       http_header: {
         Args: { field: string; value: string }
@@ -2315,17 +2408,17 @@ export type Database = {
       }
       http_patch: {
         Args: { uri: string; content: string; content_type: string }
-        Returns: unknown
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
       }
       http_post: {
         Args:
           | { uri: string; content: string; content_type: string }
           | { uri: string; data: Json }
-        Returns: unknown
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
       }
       http_put: {
         Args: { uri: string; content: string; content_type: string }
-        Returns: unknown
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
       }
       http_reset_curlopt: {
         Args: Record<PropertyKey, never>
@@ -2358,6 +2451,10 @@ export type Database = {
           similarity: number
         }[]
       }
+      refresh_c_products: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       search_products_by_delivery_zone: {
         Args: {
           p_city: string
@@ -2389,6 +2486,10 @@ export type Database = {
         Args: { data: Json } | { string: string } | { string: string }
         Returns: string
       }
+      validate_delivery_zones: {
+        Args: { p_zones: Json }
+        Returns: Json
+      }
     }
     Enums: {
       admin_role: "superadmin" | "mod" | "marketing" | "account_manager"
@@ -2414,7 +2515,7 @@ export type Database = {
         | "rejected"
       provider_businees_user_roles: "admin" | "supervisor" | "staff"
       transaction_status: "completed" | "pending" | "canceled"
-      transaction_types: "income" | "egress" | "purchase"
+      transaction_types: "income" | "egress" | "purchase" | "return"
       user_provider_branches_role: "admin" | "supervisor" | "cashier"
       user_status: "active" | "deactivated" | "deleted"
       verify_status: "pending" | "on_revision" | "verified" | "rejected"
@@ -2576,7 +2677,7 @@ export const Constants = {
       ],
       provider_businees_user_roles: ["admin", "supervisor", "staff"],
       transaction_status: ["completed", "pending", "canceled"],
-      transaction_types: ["income", "egress", "purchase"],
+      transaction_types: ["income", "egress", "purchase", "return"],
       user_provider_branches_role: ["admin", "supervisor", "cashier"],
       user_status: ["active", "deactivated", "deleted"],
       verify_status: ["pending", "on_revision", "verified", "rejected"],
