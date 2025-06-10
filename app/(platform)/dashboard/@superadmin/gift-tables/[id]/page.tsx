@@ -119,7 +119,7 @@ const GiftTablePage = async ({ params }: { params: { id: string } }) => {
         <ContributionTable data={income} />
 
         {products && (
-          <Card>
+          <Card className="w-full">
             <CardHeader>
               <CardTitle>Productos en la mesa de regalos</CardTitle>
               <CardDescription>
@@ -141,7 +141,7 @@ const GiftTablePage = async ({ params }: { params: { id: string } }) => {
         )}
 
         {giftCards && (
-          <Card>
+          <Card className="w-full">
             <CardHeader>
               <CardTitle>Tarjetas de regalo en la mesa</CardTitle>
               <CardDescription>
