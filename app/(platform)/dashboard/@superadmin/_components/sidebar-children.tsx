@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import path from "path";
 
 export const SidebarChildren = ({
   count,
@@ -186,11 +187,7 @@ export const SidebarChildren = ({
                   <SidebarMenuButton
                     tooltip={item.label}
                     asChild
-                    isActive={
-                      (item.href === "/dashboard" &&
-                        pathname === "/dashboard") ||
-                      pathname.startsWith(item.href)
-                    }
+                    isActive={pathname === item.href}
                   >
                     <Link href={item.href} prefetch>
                       <item.icon />
