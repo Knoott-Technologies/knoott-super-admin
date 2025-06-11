@@ -199,10 +199,7 @@ export const SidebarChildren = ({
                 <SidebarMenuButton
                   tooltip={item.label}
                   asChild
-                  isActive={
-                    (item.href === "/dashboard" && pathname === "/dashboard") ||
-                    pathname.startsWith(item.href)
-                  }
+                  isActive={item.href === pathname}
                 >
                   <Link href={item.href} prefetch>
                     <item.icon />
@@ -215,9 +212,7 @@ export const SidebarChildren = ({
                   {item.count}
                 </SidebarMenuBadge>
               )) ||
-                (item.count === 0 && (
-                  null
-                ))}
+                (item.count === 0 && null)}
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
