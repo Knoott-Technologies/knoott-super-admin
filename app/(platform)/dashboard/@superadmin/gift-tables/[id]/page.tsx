@@ -6,20 +6,38 @@ import { TotalGuestsCard } from "@/components/common/cards/total-guest-card";
 import { PageHeaderBackButton } from "@/components/common/headers";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
 import {
-    cn,
-    getWeddingStatusClassname,
-    getWeddingStatusLabel,
+  cn,
+  getWeddingStatusClassname,
+  getWeddingStatusLabel,
 } from "@/lib/utils";
 import { ContributionTable } from "./_components/contributions-table";
 import TransactionChart from "./_components/transactions-card";
+import { Database } from "@/database.types";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ArrowUpRight, MapIcon, Minus } from "lucide-react";
+import Link from "next/link";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const GiftTablePage = async ({ params }: { params: { id: string } }) => {
   const supabase = await createClient();
@@ -35,7 +53,14 @@ const GiftTablePage = async ({ params }: { params: { id: string } }) => {
     productsData,
   ] = await Promise.all([
     supabase.auth.getUser(),
-    supabase.from("weddings").select("*").eq("id", weddingId).single(),
+    supabase
+      .from("weddings")
+      .select(
+        "*, users:user_weddings(*, user:users(*)), addresses:wedding_addresses(*)"
+      )
+      .eq("id", weddingId)
+      .eq("addresses.is_default", true)
+      .single(),
     supabase
       .from("wedding_transactions")
       .select("*")
@@ -103,6 +128,12 @@ const GiftTablePage = async ({ params }: { params: { id: string } }) => {
           >
             {getWeddingStatusLabel(wedding.status)}
           </Button>
+          <Button asChild variant={"outline"} size={"sm"}>
+            <Link href={`https://knoott.com/${wedding.id}`} target="_blank">
+              {" "}
+              Ver boda <ArrowUpRight />
+            </Link>
+          </Button>
         </span>
       </PageHeaderBackButton>
       {/* {user?.id && <NextStepsGuide userId={user.id} wedding={wedding} />} */}
@@ -115,6 +146,134 @@ const GiftTablePage = async ({ params }: { params: { id: string } }) => {
           />
           <TotalGuestsCard wedding={wedding} transactions={income || []} />
         </div>
+
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Información general</CardTitle>
+            <CardDescription>
+              Información general de la mesa de regalos
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="bg-sidebar grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7">
+            <div className="w-full flex-1 items-start justify-start flex flex-col gap-y-4">
+              <span className="w-full flex flex-col items-start justify-start gap-y-0">
+                <p className="text-sm font-semibold">Usuarios:</p>
+                <p className="text-xs text-muted-foreground">
+                  Información de los usuarios
+                </p>
+              </span>
+              {wedding.users && (
+                <div className="w-full bg-background border p-0">
+                  <Table className="w-full">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Nombre</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Teléfono</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {wedding.users.map(
+                        (
+                          user: Database["public"]["Tables"]["user_weddings"]["Row"] & {
+                            user: Database["public"]["Tables"]["users"]["Row"];
+                          }
+                        ) => (
+                          <TableRow key={user.id}>
+                            <TableCell>
+                              {user.user.first_name + " " + user.user.last_name}
+                            </TableCell>
+                            <TableCell>{user.user.email}</TableCell>
+                            <TableCell>{user.user.phone_number}</TableCell>
+                          </TableRow>
+                        )
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </div>
+            <div className="w-full flex-1 items-start justify-start flex flex-col gap-y-4">
+              <span className="w-full flex flex-col items-start justify-start gap-y-0">
+                <p className="text-sm font-semibold">Mesa de regalos:</p>
+                <p className="text-xs text-muted-foreground">
+                  Información de la mesa de regalos:
+                </p>
+              </span>
+              <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-4 bg-card border p-3 flex-1">
+                <span className="w-full flex flex-col gap-y-2 items-start justify-start">
+                  <p className="font-semibold text-sm text-foreground">
+                    Fecha de creación
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {format(wedding.created_at, "PPP", {
+                      locale: es,
+                    })}
+                  </p>
+                </span>
+                <span className="w-full flex flex-col gap-y-2 items-start justify-start col-span-2">
+                  <p className="font-semibold text-sm text-foreground">
+                    Dirección de entrega predeterminada
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {wedding.addresses[0].street_address +
+                      ", " +
+                      wedding.addresses[0].city +
+                      ", " +
+                      wedding.addresses[0].state +
+                      ", " +
+                      wedding.addresses[0].postal_code}{" "}
+                    <span>
+                      <Tooltip delayDuration={300}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            asChild
+                            className="bg-sidebar ml-1 border hover:border-foreground shadow-none cursor-pointer hover:bg-foreground ease-in-out transition-all text-muted-foreground hover:text-background inline-flex h-5 max-h-full items-center rounded px-1 font-[inherit] text-[0.625rem] font-medium"
+                          >
+                            <Link
+                              target="_blank"
+                              href={`https://www.google.com/maps/search/?api=1&query=${wedding.addresses[0].street_address}%2C${wedding.addresses[0].city}%2C${wedding.addresses[0].state}%2C${wedding.addresses[0].postal_code}`}
+                            >
+                              <MapIcon className="!h-3 !w-3" />
+                            </Link>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent align="center">
+                          <p>Buscar en Google Maps</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </span>
+                  </p>
+                </span>
+                <span className="w-full flex flex-col gap-y-2 items-start justify-start">
+                  <p className="font-semibold text-sm text-foreground">
+                    Banco
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {wedding.bank}{" "}
+                  </p>
+                </span>
+                <span className="w-full flex flex-col gap-y-2 items-start justify-start">
+                  <p className="font-semibold text-sm text-foreground">
+                    Cuenta CLABE
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {wedding.bank_account_number}{" "}
+                  </p>
+                </span>
+                <span className="w-full flex flex-col gap-y-2 items-start justify-start">
+                  <p className="font-semibold text-sm text-foreground">
+                    Titular de la cuenta
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {wedding.account_holder}{" "}
+                  </p>
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <TransactionChart data={transactions} />
         <ContributionTable data={income} />
 

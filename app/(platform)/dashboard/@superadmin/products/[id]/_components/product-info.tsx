@@ -97,12 +97,18 @@ export const ProductInfo = ({
             </span>
             <span className="w-full flex flex-col gap-y-1">
               <p className="text-sm font-semibold">Categoría:</p>
-              <p
-                title={product.subcategory.name}
-                className="text-sm line-clamp-2 font-medium text-muted-foreground"
-              >
-                {product.subcategory.name}
-              </p>
+              {product.subcategory ? (
+                <p
+                  title={product.subcategory.name}
+                  className="text-sm line-clamp-2 font-medium text-muted-foreground"
+                >
+                  {product.subcategory.name}
+                </p>
+              ) : (
+                <p className="text-sm line-clamp-2 font-medium text-muted-foreground">
+                  Sin categoría
+                </p>
+              )}
             </span>
             <span className="w-full flex flex-col gap-y-1 xl:col-span-2">
               <p className="text-sm font-semibold">Palabras clave:</p>
