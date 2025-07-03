@@ -133,12 +133,12 @@ const processDataForChart = (
     const formattedDate = format(date, "dd MMM", { locale: es });
 
     if (transaction.type === "income") {
-      allDatesData[formattedDate].income += Number(transaction.amount);
+      allDatesData[formattedDate].income += Number(transaction.user_received_amount);
     } else if (
       transaction.type === "egress" ||
       transaction.type === "purchase"
     ) {
-      allDatesData[formattedDate].egress += Number(transaction.amount);
+      allDatesData[formattedDate].egress += Number(transaction.user_received_amount);
     }
   });
 

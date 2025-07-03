@@ -16,7 +16,7 @@ export const TotalContributionCard = ({
   transactions: Database["public"]["Tables"]["wedding_transactions"]["Row"][];
 }) => {
   const total = transactions.reduce(
-    (acc, transaction) => acc + transaction.amount,
+    (acc, transaction) => acc + transaction.user_received_amount!,
     0
   );
   return (
