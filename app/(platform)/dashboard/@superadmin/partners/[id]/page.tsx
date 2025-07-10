@@ -18,6 +18,7 @@ import {
 import { DataTable } from "@/components/common/table/data-table";
 import { columns } from "./_components/transactions-columns";
 import { OrdersTable } from "./_components/orders-table";
+import { PartnerInfo } from "./_components/partner-info";
 
 const ProviderBusinessDashboardPage = async ({
   params,
@@ -140,6 +141,7 @@ const ProviderBusinessDashboardPage = async ({
           <TotalTransactionsNumber total={totalTransactions} />
           <TotalProductsCard total={totalProducts} />
         </div>
+        <PartnerInfo business={business} />
         <TransactionChart data={transactions} />
         <Card className="w-full">
           <CardHeader>
