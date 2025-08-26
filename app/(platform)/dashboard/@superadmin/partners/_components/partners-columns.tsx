@@ -130,7 +130,7 @@ export const columns: ColumnDef<Partners>[] = [
       <DataTableColumnHeader column={column} title="Ventas" />
     ),
     cell: ({ row }) => {
-      const totalSales = row.original.total_in_sales || 0;
+      const totalSales = row.original.total_sales || 0;
       return (
         <div className="flex items-center gap-2">
           <p className="truncate">{totalSales}</p>

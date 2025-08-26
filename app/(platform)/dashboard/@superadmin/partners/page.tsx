@@ -61,12 +61,17 @@ const GiftTablesPage = async () => {
             count={totalNonVerifiedCount || 0}
             title="Partners no verificados"
           />
-           <CardCount
+          <CardCount
             count={totalPendingSalesAmount || 0}
             title="Ventas pendientes"
           />
         </div>
-        <DataTable rowAsLink basePath="/dashboard/partners" columns={columns} data={giftTables} />
+        <DataTable
+          rowAsLink
+          basePath="/dashboard/partners"
+          columns={columns}
+          data={giftTables}
+        />
       </section>
     </main>
   );
